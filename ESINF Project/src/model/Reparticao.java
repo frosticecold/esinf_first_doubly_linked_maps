@@ -1,0 +1,71 @@
+package model;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ *
+ * @author Raúl Correia <1090657@isep.ipp.pt>
+ */
+public class Reparticao {
+
+    /**
+     * Cidade da Repartição
+     */
+    private String cidade;
+    /**
+     * Número da repartição
+     */
+    private int n_reparticao;
+    /**
+     * Código postal da partição
+     */
+    private CodigoPostal cod_postal;
+
+    /**
+     * Lista com assuntos únicos;
+     */
+    private Set<Assunto> setAssunto;
+
+    private static final String VALOR_OMISSAO = "Sem valor";
+    private static int NUMERO_REPARTICAO_CRIADAS = 0;
+
+    public Reparticao() {
+        cidade = VALOR_OMISSAO;
+        n_reparticao = NUMERO_REPARTICAO_CRIADAS + 1;
+        cod_postal = new CodigoPostal();
+        setAssunto = new HashSet<>();
+        NUMERO_REPARTICAO_CRIADAS++;
+    }
+
+    public Reparticao(String cidade, int n_reparticao, CodigoPostal cod_postal, Set<Assunto> setAssunto) {
+        this.cidade = cidade;
+        this.n_reparticao = n_reparticao;
+        this.cod_postal = cod_postal;
+        this.setAssunto = setAssunto;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public int getNumReparticao() {
+        return n_reparticao;
+    }
+
+    public CodigoPostal getCodPostal() {
+        return cod_postal;
+    }
+
+    public Set<Assunto> getSetAssunto() {
+        return setAssunto;
+    }
+
+    public boolean adicionarAssunto(Assunto a) {
+        return setAssunto.add(a);
+    }
+
+    public boolean removerAssunto(Assunto a) {
+        return setAssunto.remove(a);
+    }
+}
