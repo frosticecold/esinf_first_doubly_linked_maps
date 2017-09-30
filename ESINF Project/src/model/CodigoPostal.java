@@ -20,6 +20,16 @@ public class CodigoPostal {
      */
     private static int SEM_NUM = 0;
 
+    public CodigoPostal(String cod) {
+        int array[] = dividirCodigoPostal(cod);
+        if (array != null) {
+            prefixo = array[0];
+            sufixo = array[1];
+        } else {
+            throw new IllegalArgumentException("Código Postal inválido");
+        }
+    }
+
     /**
      * Construtor código postal
      *
@@ -49,20 +59,18 @@ public class CodigoPostal {
         setSufixo(SEM_NUM);
     }
 
-    /**
-     *
-     * @return Retorna o Prefixo de um CódigoPostal
-     */
-    public int getPrefixo() {
-        return prefixo;
-    }
-
-    /**
-     *
-     * @return Retorna o Sufixo de um CódigoPostal
-     */
-    public int getSufixo() {
-        return sufixo;
+    private int[] dividirCodigoPostal(String cod) {
+        final String SEPARADOR = "-";
+        final int NR_CAMPOS = 2;
+        int array[] = new int[NR_CAMPOS];
+        String linhaSplit[] = cod.split(SEPARADOR);
+        if (linhaSplit.length == NR_CAMPOS) {
+            for (int i = 0; i < NR_CAMPOS; i++) {
+                array[i] = Integer.parseInt(linhaSplit[i]);
+            }
+            return array;
+        }
+        return null;
     }
 
     /**
@@ -90,6 +98,22 @@ public class CodigoPostal {
         } else {
             throw new IllegalArgumentException("Sufixo inválido");
         }
+    }
+
+    /**
+     *
+     * @return Retorna o Prefixo de um CódigoPostal
+     */
+    public int getPrefixo() {
+        return prefixo;
+    }
+
+    /**
+     *
+     * @return Retorna o Sufixo de um CódigoPostal
+     */
+    public int getSufixo() {
+        return sufixo;
     }
 
     @Override
