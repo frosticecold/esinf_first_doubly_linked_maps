@@ -25,7 +25,7 @@ public class Reparticao {
     /**
      * Lista com assuntos únicos;
      */
-    private Set<Assunto> setAssunto;
+    private Set<Assunto> stAssnt;
 
     private static final String VALOR_OMISSAO = "Sem valor";
     private static int NUMERO_REPARTICAO_CRIADAS = 0;
@@ -34,15 +34,15 @@ public class Reparticao {
         cidade = VALOR_OMISSAO;
         n_reparticao = NUMERO_REPARTICAO_CRIADAS + 1;
         cod_postal = new CodigoPostal();
-        setAssunto = new HashSet<>();
+        stAssnt = new HashSet<>();
         NUMERO_REPARTICAO_CRIADAS++;
     }
 
-    public Reparticao(String cidade, int n_reparticao, CodigoPostal cod_postal, Set<Assunto> setAssunto) {
+    public Reparticao(String cidade, int n_reparticao, CodigoPostal cod_postal, Set<Assunto> setAss) {
         this.cidade = cidade;
         this.n_reparticao = n_reparticao;
         this.cod_postal = cod_postal;
-        this.setAssunto = setAssunto;
+        this.stAssnt = setAss;
     }
 
     public String getCidade() {
@@ -58,14 +58,18 @@ public class Reparticao {
     }
 
     public Set<Assunto> getSetAssunto() {
-        return setAssunto;
+        return stAssnt;
     }
 
     public boolean adicionarAssunto(Assunto a) {
-        return setAssunto.add(a);
+        return stAssnt.add(a);
     }
 
     public boolean removerAssunto(Assunto a) {
-        return setAssunto.remove(a);
+        return stAssnt.remove(a);
+    }
+
+    public int quantosAssuntos() {
+        return stAssnt.size();
     }
 }

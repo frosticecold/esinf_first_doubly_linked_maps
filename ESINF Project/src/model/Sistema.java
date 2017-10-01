@@ -19,9 +19,11 @@ public class Sistema {
 
     DoublyLinkedList<Reparticao> dllReparticao;
     Set<Cidadao> setCidadao;
+    Map<Cidadao, Set<Senha>> mapaCidadaoSenhas;
 
     public Sistema() {
         dllReparticao = new DoublyLinkedList<>();
         setCidadao = new HashSet<>();
+        mapaCidadaoSenhas = new HashMap<>();
     }
 }
