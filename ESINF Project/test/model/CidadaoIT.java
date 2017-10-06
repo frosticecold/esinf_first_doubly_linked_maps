@@ -23,7 +23,7 @@ public class CidadaoIT {
         String email = "emaila@mail.pt";
         String codigopostal = "4480-667";
         int numreparticao = 12345;
-        c1 = new Cidadao(nif, nome, email, codigopostal, numreparticao);
+        c1 = new Cidadao(nome, nif, email, codigopostal, numreparticao);
 
         //Cidadao c2
         long nif2 = 987654321;
@@ -31,7 +31,7 @@ public class CidadaoIT {
         String email2 = "emailb@mail.pt";
         String codigopostal2 = "2260-123";
         int numreparticao2 = 12346;
-        c2 = new Cidadao(nif2, nome2, email2, codigopostal2, numreparticao2);
+        c2 = new Cidadao(nome2, nif2, email2, codigopostal2, numreparticao2);
 
     }
 
@@ -93,17 +93,6 @@ public class CidadaoIT {
         int expResult = 12345;
         int result = c1.getNumReparticao();
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of setNif method, of class Cidadao.
-     */
-    @Test
-    public void testSetNif() {
-        System.out.println("setNif");
-        long nif = 987654321;
-        c2.setNif(nif);
-        assertEquals(nif, c2.getNif());
     }
 
     /**

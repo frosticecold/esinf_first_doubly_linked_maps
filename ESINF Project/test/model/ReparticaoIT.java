@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,12 +13,12 @@ import static org.junit.Assert.*;
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
 public class ReparticaoIT {
-    
+
     private Reparticao r1;
     private static String cidadeOmissao = "Porto";
     private static int numReparticao = 1234;
     private static String codigoPostal = "4480";
-    
+
     public ReparticaoIT() {
         r1 = new Reparticao(cidadeOmissao, numReparticao, codigoPostal);
     }
@@ -62,41 +60,20 @@ public class ReparticaoIT {
     }
 
     /**
-     * Test of getListaServicos method, of class Reparticao.
-     */
-    @Test
-    public void testGetListaServicos() {
-        System.out.println("getListaServicos");
-        Reparticao instance = r1;
-        Set<Character> expResult = new HashSet<>();
-        
-        expResult.add('A');
-        expResult.add('B');
-        expResult.add('C');
-        
-        Set<Character> result = instance.getListaServicos();
-        result.add('A');
-        result.add('B');
-        result.add('C');
-        assertEquals(expResult, result);
-        
-    }
-
-    /**
      * Test of adicionarServiço method, of class Reparticao.
      */
     @Test
     public void testAdicionarServiço() {
         System.out.println("adicionarServiço");
-        
+
         Reparticao instance = new Reparticao(cidadeOmissao, numReparticao, codigoPostal);
         boolean expResult = true;
         boolean result = instance.adicionarServiço('A');
         assertEquals(expResult, result);
-        
+
         expResult = false;
         result = instance.adicionarServiço('A');
         assertEquals(expResult, result);
     }
-    
+
 }

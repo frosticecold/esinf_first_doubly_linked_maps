@@ -25,7 +25,9 @@ public class RegistoReparticao {
         return dll.listIterator();
     }
 
-    public boolean adicionarReparticao(Reparticao r, GestaoAtendimento ga) {
+    /*==========================================================================
+    ==============================Métodos Public========================*/
+    public boolean adicionarReparticao(Reparticao r) {
         if (dll.isEmpty()) {
             return dll.addLast(r);
 
@@ -39,6 +41,28 @@ public class RegistoReparticao {
         return false;
     }
 
+    public boolean removerReparticao(Reparticao r) {
+        if (dll.isEmpty()) {
+            return false;
+        } else {
+            ListIterator<Reparticao> it = dll.listIterator();
+            while (it.hasNext()) {
+                Reparticao oRep = it.next();
+                if (r.equals(oRep)) {
+                    it.remove();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int size() {
+        return dll.size();
+    }
+
+    /*==========================================================================
+    ==============================Métodos Private========================*/
     private boolean verificarSeReparticaoJaExiste(Reparticao r) {
         boolean existe = false;
         ListIterator<Reparticao> it = dll.listIterator();

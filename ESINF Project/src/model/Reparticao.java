@@ -5,7 +5,11 @@
  */
 package model;
 
+import estruturas.DoublyLinkedList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -28,9 +32,122 @@ public class Reparticao {
      */
     private String codigoPostal;
 
+    /**
+     * Set de Serviços Disponíveis
+     */
+    private Set<Character> listaServicos;
+
+    /**
+     * Mapa com contador por determinado serviço
+     */
+    private Map<Character, Integer> mapaContadorSenhasPorServico;
+
+    /**
+     * Lista duplamente ligada com as senhas
+     */
+    private DoublyLinkedList<Senha> listaSenhas;
+
+    /**
+     * Valor omissao de um contador
+     */
+    private static int VALOR_CONTADOR_OMISSAO = 0;
+
+    public Reparticao(String cidade, int numReparticao, String codigoPostal) {
+        this.cidade = cidade;
+        this.numReparticao = numReparticao;
+        this.codigoPostal = codigoPostal;
+
+        //Inicializar contentores
+        listaServicos = new HashSet<>();
+        mapaContadorSenhasPorServico = new HashMap();
+        listaSenhas = new DoublyLinkedList<>();
+    }
+
+    /**
+     * @return the cidade
+     */
+    public String getCidade() {
+        return cidade;
+    }
+
+    /**
+     * @return the numReparticao
+     */
+    public int getNumReparticao() {
+        return numReparticao;
+    }
+
+    /**
+     * @return the codigoPostal
+     */
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    /**
+     * Método que adiciona serviços ao set de Serviços caso já não existam
+     *
+     * @param c Serviço a adicionar
+     * @return true or false
+     */
+    public boolean adicionarServiço(char c) {
+        if (!listaServicos.contains(c)) {
+            mapaContadorSenhasPorServico.put(c, VALOR_CONTADOR_OMISSAO);
+            return listaServicos.add(c);
+        }
+        return false;
+    }
+
+    public boolean adicionarSenha(Senha senha) {
+        if (listaServicos.contains(senha.getCodServico())) {
+            listaSenhas.addLast(senha);
+            Integer contador = mapaContadorSenhasPorServico.get(senha.getCodServico());
+            contador++;
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * Método que tira uma nova senha
+     *
+     * @param nif Nif do cidadao
+     * @param cod_servico cod_serviço
+     * @return
+     */
+    public Senha tirarSenha(long nif, char cod_servico) {
+        int contador = mapaContadorSenhasPorServico.get(cod_servico);
+        contador++;
+        Senha senha = new Senha(nif, cod_servico, contador);
+        listaSenhas.addLast(senha);
+        return senha;
+    }
+
+    /**
+     * Método para abandonar todas as senhas de um determinado nif
+     *
+     * @param nif NIF do cidadão
+     * @return true or false
+     */
+    public boolean abandonarFilas(long nif) {
+        boolean removed = false;
+        ListIterator<Senha> it = listaSenhas.listIterator();
+        while (it.hasNext()) {
+            Senha s = it.next();
+            if (s.getNif() == nif) {
+                it.remove();
+                removed = true;
+            }
+        }
+        return removed;
+    }
+
     @Override
     public int hashCode() {
-        int hash = cidade.hashCode() + numReparticao + codigoPostal.hashCode();
+        int hash = 5;
+        hash = 97 * hash + this.numReparticao;
+        hash = 97 * hash + Objects.hashCode(this.codigoPostal);
         return hash;
     }
 
@@ -58,74 +175,13 @@ public class Reparticao {
         if (!Objects.equals(this.listaServicos, other.listaServicos)) {
             return false;
         }
-        if (!Objects.equals(this.maquinaDeSenhas, other.maquinaDeSenhas)) {
-            return false;
-        }
+
         return true;
-    }
-    /**
-     * Set de Serviços Disponíveis
-     */
-    private Set<Character> listaServicos;
-
-    /**
-     * Máquina de Senhas de uma Repartição
-     */
-    private MaquinaSenhas maquinaDeSenhas;
-
-    public Reparticao(String cidade, int numReparticao, String codigoPostal) {
-        this.cidade = cidade;
-        this.numReparticao = numReparticao;
-        this.codigoPostal = codigoPostal;
-        listaServicos = new HashSet<>();
-        maquinaDeSenhas = new MaquinaSenhas(listaServicos);
-    }
-
-    /**
-     * @return the cidade
-     */
-    public String getCidade() {
-        return cidade;
-    }
-
-    /**
-     * @return the numReparticao
-     */
-    public int getNumReparticao() {
-        return numReparticao;
-    }
-
-    /**
-     * @return the codigoPostal
-     */
-    public String getCodigoPostal() {
-        return codigoPostal;
-    }
-
-    /**
-     * @return the listaServicos
-     */
-    public Set<Character> getListaServicos() {
-        return listaServicos;
-    }
-
-    /**
-     * @return the maquinaDeSenhas
-     */
-    public MaquinaSenhas getMaquinaDeSenhas() {
-        return maquinaDeSenhas;
-    }
-
-    public boolean adicionarServiço(char c) {
-        if (!listaServicos.contains(c)) {
-            return getListaServicos().add(c);
-        }
-        return false;
     }
 
     @Override
     public String toString() {
-        return "Reparticao{" + "cidade=" + cidade + ", numReparticao=" + numReparticao + ", codigoPostal=" + codigoPostal + ", listaServicos=" + listaServicos + ", maquinaDeSenhas=" + maquinaDeSenhas + '}';
+        return "Reparticao{" + "cidade=" + cidade + ", numReparticao=" + numReparticao + ", codigoPostal=" + codigoPostal + ", listaServicos=" + listaServicos + '}';
     }
 
 }

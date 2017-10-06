@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Objects;
+
 /**
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
@@ -14,7 +16,7 @@ public class Cidadao implements Comparable<Cidadao> {
     /**
      * Nif de um cidadão
      */
-    private long nif;
+    private final long nif;
 
     /**
      * Nome de um cidadão
@@ -46,7 +48,7 @@ public class Cidadao implements Comparable<Cidadao> {
      * @param codigoPostal código postal de um cidadão
      * @param numReparticao qual o número de repartição a que pertence
      */
-    public Cidadao(long nif, String nome, String email, String codigoPostal, int numReparticao) {
+    public Cidadao(String nome,long nif, String email, String codigoPostal, int numReparticao) {
         this.nif = nif;
         this.nome = nome;
         this.email = email;
@@ -90,13 +92,6 @@ public class Cidadao implements Comparable<Cidadao> {
     }
 
     /**
-     * @param nif the nif to set
-     */
-    public void setNif(long nif) {
-        this.nif = nif;
-    }
-
-    /**
      * @param nome the nome to set
      */
     public void setNome(String nome) {
@@ -127,6 +122,43 @@ public class Cidadao implements Comparable<Cidadao> {
     @Override
     public int compareTo(Cidadao o) {
         return nome.compareTo(o.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 29 * hash + (int) (this.nif ^ (this.nif >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cidadao other = (Cidadao) obj;
+        if (this.nif != other.nif) {
+            return false;
+        }
+        if (this.numReparticao != other.numReparticao) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.codigoPostal, other.codigoPostal)) {
+            return false;
+        }
+        return true;
     }
 
 }
