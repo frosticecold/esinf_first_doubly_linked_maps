@@ -1,176 +1,127 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
 /**
  *
- * @author Raúl Correia
+ * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class Cidadao implements Comparable<Cidadao> {
+public class Cidadao {
 
     /**
-     * Nome de um cidadao
+     * Nif de um cidadão
+     */
+    private long nif;
+
+    /**
+     * Nome de um cidadão
      */
     private String nome;
+
     /**
-     * Email de um cidadao
+     * Email de um cidadão
      */
     private String email;
-    /**
-     * Código Postal de um cidadão
-     */
-    private CodigoPostal cod_postal;
-    /**
-     * Número de contribuinte de um cidadão
-     */
-    private final int n_contribuinte;
-    /**
-     * Número de repartição associada a um cidadão
-     */
-    private final int numero_reparticao;
 
     /**
-     * Construtor de um cidadão
-     *
-     * @param nome Nome do cidadao
-     * @param n_contribuinte Número contribuinte de um cidadão
-     * @param email Email de um cidadão
-     * @param cod_postal Código Postal de um cidadão
-     * @param numero_reparticao Número de repartição associada a um cidadão
+     * Código postla de um cidadão
      */
-    public Cidadao(String nome, int n_contribuinte, String email, CodigoPostal cod_postal, int numero_reparticao) {
+    private String codigoPostal;
+
+    /**
+     * Número de repartição a que pertence
+     */
+    private int numReparticao;
+
+    /**
+     *
+     * Construtor que recebe como parâmetro
+     *
+     * @param nif nif de um cidadão
+     * @param nome nome de um cidadão
+     * @param email email de um cidadão
+     * @param codigoPostal código postal de um cidadão
+     * @param numReparticao qual o número de repartição a que pertence
+     */
+    public Cidadao(long nif, String nome, String email, String codigoPostal, int numReparticao) {
+        this.nif = nif;
         this.nome = nome;
         this.email = email;
-        this.cod_postal = cod_postal;
-        this.n_contribuinte = n_contribuinte;
-        this.numero_reparticao = numero_reparticao;
-    }
-
-    public Cidadao(Cidadao c) {
-        this.nome = c.nome;
-        this.email = c.email;
-        this.cod_postal = c.cod_postal;
-        this.n_contribuinte = c.n_contribuinte;
-        this.numero_reparticao = c.numero_reparticao;
+        this.codigoPostal = codigoPostal;
+        this.numReparticao = numReparticao;
     }
 
     /**
-     * @return O nome de um cidadão
+     * @return the nif
+     */
+    public long getNif() {
+        return nif;
+    }
+
+    /**
+     * @return the nome
      */
     public String getNome() {
         return nome;
     }
 
     /**
-     * @return Número de Contribuinte
-     */
-    public int getNumContribuinte() {
-        return n_contribuinte;
-    }
-
-    /**
-     * @return Email de um cidadão
+     * @return the email
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * @return Código Postal de um cidadão
+     * @return the codigoPostal
      */
-    public CodigoPostal getCodPostal() {
-        return cod_postal;
+    public String getCodigoPostal() {
+        return codigoPostal;
     }
 
     /**
-     *
-     * @return Número de Repartição associado a um cidadão
+     * @return the numReparticao
      */
-    public int getNumeroReparticao() {
-        return numero_reparticao;
+    public int getNumReparticao() {
+        return numReparticao;
     }
 
     /**
-     * @param Nome nome a alterar um cidadão
+     * @param nif the nif to set
+     */
+    public void setNif(long nif) {
+        this.nif = nif;
+    }
+
+    /**
+     * @param nome the nome to set
      */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     /**
-     * @param email Email para alterar um cidadão
+     * @param email the email to set
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * @param cod_postal Código Postal a alterar de um cidadão
+     * @param codigoPostal the codigoPostal to set
      */
-    public void setCodPostal(CodigoPostal cod_postal) {
-        this.cod_postal = cod_postal;
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
     }
 
     /**
-     *
-     * @return Hashcode de um cidadao
+     * @param numReparticao the numReparticao to set
      */
-    @Override
-    public int hashCode() {
-        return nome.hashCode() + email.hashCode() + cod_postal.hashCode() + n_contribuinte;
+    public void setNumReparticao(int numReparticao) {
+        this.numReparticao = numReparticao;
     }
 
-    /**
-     * Retorna se um cidadão é igual a outro
-     *
-     * @param obj Objeto a comparar
-     * @return true or false
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Cidadao other = (Cidadao) obj;
-        if (this.n_contribuinte != other.n_contribuinte) {
-            return false;
-        }
-        if (!this.nome.equals(other.nome)) {
-            return false;
-        }
-        if (!this.email.equals(other.email)) {
-            return false;
-        }
-        if (!this.cod_postal.equals(other.cod_postal)) {
-            return false;
-        }
-        if (this.numero_reparticao != other.numero_reparticao) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Comparar dois cidadãos pela ordem natural do número de contribuinte
-     *
-     * @param o Cidadao a comparar
-     * @return a diferença entre número de contribuintes
-     */
-    @Override
-    public int compareTo(Cidadao o) {
-        return this.n_contribuinte - o.n_contribuinte;
-    }
-
-    /**
-     *
-     * @return String com a designação de um Cidadão
-     */
-    @Override
-    public String toString() {
-        return "Cidadao{" + "nome=" + nome + ", email=" + email + ", cod_postal=" + cod_postal + ", n_contribuinte=" + n_contribuinte + ", numero_reparticao=" + numero_reparticao + '}';
-    }
 }

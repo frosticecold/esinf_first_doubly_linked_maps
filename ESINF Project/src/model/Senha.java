@@ -1,72 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
-public class Senha implements Comparable<Senha> {
+/**
+ *
+ * @author Raúl Correia <1090657@isep.ipp.pt>
+ */
+public class Senha {
 
     /**
-     * Número da senha
+     * Número de contribuinte de um cidadão
      */
-    private final int n_ordem;
-    /**
-     * Código da senha
-     */
-    private final char codigo;
+    private long nif;
 
     /**
-     * Construtor de uma senha
+     * Código de um serviço
+     */
+    private char cod_servico;
+
+    /**
+     * Número da ordem
+     */
+    private int num_ordem;
+
+    /**
+     * Construtor para um objeto senha
      *
-     * @param n_ordem Número da senham
-     * @param codigo Código da Senha
+     * @param nif Nif de um cidadão
+     * @param cod_servico Código de serviço
+     * @param num_ordem Ordem da senha
      */
-    public Senha(int n_ordem, char codigo) {
-        this.n_ordem = n_ordem;
-        this.codigo = codigo;
+    public Senha(long nif, char cod_servico, int num_ordem) {
+        this.nif = nif;
+        this.cod_servico = cod_servico;
+        this.num_ordem = num_ordem;
     }
 
-    /**
-     *
-     * @return Retorna o número da Senha
-     */
-    public int getNumSenha() {
-        return n_ordem;
+    public long getNif() {
+        return nif;
     }
 
-    /**
-     *
-     * @return Retorna o código da Senha
-     */
-    public char getCodigoSenha() {
-        return codigo;
+    public char getCodServico() {
+        return cod_servico;
     }
 
-    @Override
-    public int compareTo(Senha o) {
-        return this.n_ordem - o.n_ordem;
+    public int getNumOrdem() {
+        return num_ordem;
     }
 
-    @Override
-    public int hashCode() {
-        return n_ordem + codigo;
+    public void setNif(long nif) {
+        this.nif = nif;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Senha other = (Senha) obj;
-        if (this.n_ordem != other.n_ordem) {
-            return false;
-        }
-        if (this.codigo != other.codigo) {
-            return false;
-        }
-        return true;
-    }
-
 }

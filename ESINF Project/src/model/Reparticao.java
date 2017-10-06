@@ -1,6 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -10,66 +16,116 @@ import java.util.Set;
 public class Reparticao {
 
     /**
-     * Cidade da Repartição
+     * Cidade da repartição
      */
     private String cidade;
     /**
-     * Número da repartição
+     * Número de repartição
      */
-    private int n_reparticao;
+    private int numReparticao;
     /**
-     * Código postal da partição
+     * Código Postal de uma repartição
      */
-    private CodigoPostal cod_postal;
+    private String codigoPostal;
 
-    /**
-     * Lista com assuntos únicos;
-     */
-    private Set<Assunto> stAssnt;
-
-    private static final String VALOR_OMISSAO = "Sem valor";
-    private static int NUMERO_REPARTICAO_CRIADAS = 0;
-
-    public Reparticao() {
-        cidade = VALOR_OMISSAO;
-        n_reparticao = NUMERO_REPARTICAO_CRIADAS + 1;
-        cod_postal = new CodigoPostal();
-        stAssnt = new HashSet<>();
-        NUMERO_REPARTICAO_CRIADAS++;
+    @Override
+    public int hashCode() {
+        int hash = cidade.hashCode() + numReparticao + codigoPostal.hashCode();
+        return hash;
     }
 
-    public Reparticao(String cidade, int n_reparticao, CodigoPostal cod_postal, Set<Assunto> setAss) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Reparticao other = (Reparticao) obj;
+        if (this.numReparticao != other.numReparticao) {
+            return false;
+        }
+        if (!Objects.equals(this.cidade, other.cidade)) {
+            return false;
+        }
+        if (!Objects.equals(this.codigoPostal, other.codigoPostal)) {
+            return false;
+        }
+        if (!Objects.equals(this.listaServicos, other.listaServicos)) {
+            return false;
+        }
+        if (!Objects.equals(this.maquinaDeSenhas, other.maquinaDeSenhas)) {
+            return false;
+        }
+        return true;
+    }
+    /**
+     * Set de Serviços Disponíveis
+     */
+    private Set<Character> listaServicos;
+
+    /**
+     * Máquina de Senhas de uma Repartição
+     */
+    private MaquinaSenhas maquinaDeSenhas;
+
+    public Reparticao(String cidade, int numReparticao, String codigoPostal) {
         this.cidade = cidade;
-        this.n_reparticao = n_reparticao;
-        this.cod_postal = cod_postal;
-        this.stAssnt = setAss;
+        this.numReparticao = numReparticao;
+        this.codigoPostal = codigoPostal;
+        listaServicos = new HashSet<>();
+        maquinaDeSenhas = new MaquinaSenhas(listaServicos);
     }
 
+    /**
+     * @return the cidade
+     */
     public String getCidade() {
         return cidade;
     }
 
+    /**
+     * @return the numReparticao
+     */
     public int getNumReparticao() {
-        return n_reparticao;
+        return numReparticao;
     }
 
-    public CodigoPostal getCodPostal() {
-        return cod_postal;
+    /**
+     * @return the codigoPostal
+     */
+    public String getCodigoPostal() {
+        return codigoPostal;
     }
 
-    public Set<Assunto> getSetAssunto() {
-        return stAssnt;
+    /**
+     * @return the listaServicos
+     */
+    public Set<Character> getListaServicos() {
+        return listaServicos;
     }
 
-    public boolean adicionarAssunto(Assunto a) {
-        return stAssnt.add(a);
+    /**
+     * @return the maquinaDeSenhas
+     */
+    public MaquinaSenhas getMaquinaDeSenhas() {
+        return maquinaDeSenhas;
     }
 
-    public boolean removerAssunto(Assunto a) {
-        return stAssnt.remove(a);
+    public boolean adicionarServiço(char c) {
+        if (!listaServicos.contains(c)) {
+            return getListaServicos().add(c);
+        }
+        return false;
     }
 
-    public int quantosAssuntos() {
-        return stAssnt.size();
+    @Override
+    public String toString() {
+        return "Reparticao{" + "cidade=" + cidade + ", numReparticao=" + numReparticao + ", codigoPostal=" + codigoPostal + ", listaServicos=" + listaServicos + ", maquinaDeSenhas=" + maquinaDeSenhas + '}';
     }
+
 }

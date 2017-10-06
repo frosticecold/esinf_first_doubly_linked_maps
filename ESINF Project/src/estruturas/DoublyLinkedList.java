@@ -5,8 +5,6 @@ package estruturas;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -246,6 +244,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
             dll.addLast(it.next());
         }
         return dll;
+//        return super.clone();
     }
 
 //---------------- nested DoublyLinkedListIterator class ----------------        

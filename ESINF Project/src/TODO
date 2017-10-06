@@ -1,0 +1,16 @@
+
+A) Ler Ficheiros
+
+B)Adicionar uma	 nova repartição. Não podem existir repartições	 repetidas, nem	 duplicadas no	 mesmo código	postal	(primeiros quatro algarismos).
+Todos os cidadãos cujo	código	postal	seja igual ao da nova repartição devem ser “passados”	para ela.
+Notar	que quando os dados são	lidos dos ficheiros, o	código postal do cidadão poderá	não ser	igual ao da repartição	a que está afecto.
+
+C)Remover uma repartição. Passar os cidadãos para a repartição mais próxima em termos de código postal	(primeiros quatro algarismos).
+ A proximidade	é representada	pela diferença	numérica entre	os códigos postais.
+
+D)Saber	 quais	 os cidadãos afectos a cada repartição.Para isso, devolver número e cidade de cada repartição e	os cidadãos (número	de	contribuinte)	que	lhe	estão	afectos.
+
+E)Inserir novos	cidadãos, não permitindo o registo de cidadãos	repetidos. 
+Cada	cidadão	está associado	a uma só repartição.
+
+F)
