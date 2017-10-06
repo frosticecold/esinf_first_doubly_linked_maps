@@ -21,14 +21,22 @@ public class RegistoReparticao {
         dll = new DoublyLinkedList<Reparticao>();
     }
 
-    public void adicionarReparticao(Reparticao r, GestaoAtendimento ga) {
+    public ListIterator<Reparticao> listIterator() {
+        return dll.listIterator();
+    }
+
+    public boolean adicionarReparticao(Reparticao r, GestaoAtendimento ga) {
         if (dll.isEmpty()) {
-            dll.addLast(r);
+            return dll.addLast(r);
 
         } else {
             boolean existe = verificarSeReparticaoJaExiste(r);
             boolean repetido = verificarCodigoPostalRepetido(r);
+            if (existe == false && repetido == false) {
+                return dll.addLast(r);
+            }
         }
+        return false;
     }
 
     private boolean verificarSeReparticaoJaExiste(Reparticao r) {
@@ -60,4 +68,5 @@ public class RegistoReparticao {
         }
         return repetido;
     }
+
 }

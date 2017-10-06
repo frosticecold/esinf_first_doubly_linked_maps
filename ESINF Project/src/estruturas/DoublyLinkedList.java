@@ -84,22 +84,26 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
      *
      * @param e element to be added to the front of the list
      */
-    public void addFirst(E e) {
+    public boolean addFirst(E e) {
+        boolean added = false;
         // place just after the header
         Node<E> newNode;
         if (isEmpty()) {
             newNode = new Node<>(e, header, trailer);
             header.setNext(newNode);
             trailer.setPrev(newNode);
+            added = true;
         } else {
             Node<E> next = header.getNext();
             newNode = new Node<>(e, header, next);
             header.setNext(newNode);
             next.setPrev(newNode);
+            added = true;
 
         }
         size++;
         modCount++;
+        return added;
     }
 
     /**
@@ -107,20 +111,24 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
      *
      * @param e element to be added to the end of the list
      */
-    public void addLast(E e) {
+    public boolean addLast(E e) {
+        boolean added = false;
         Node<E> novoNo;
         if (isEmpty()) {
             novoNo = new Node(e, header, trailer);
             header.setNext(novoNo);
             trailer.setPrev(novoNo);
+            added = true;
         } else {
             Node<E> ultimoNo = trailer.getPrev();
             novoNo = new Node(e, ultimoNo, trailer);
             ultimoNo.setNext(novoNo);
             trailer.setPrev(novoNo);
+            added = true;
         }
         size++;
         modCount++;
+        return added;
     }
 
     /**
@@ -167,12 +175,13 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
     /**
      * Adds an element e to the linked list between the two given nodes.
      */
-    private void addBetween(E e, Node<E> predecessor, Node<E> successor) {
+    private boolean addBetween(E e, Node<E> predecessor, Node<E> successor) {
         Node<E> newNode = new Node<>(e, predecessor, successor);
         predecessor.setNext(newNode);
         successor.setPrev(newNode);
         size++;
         modCount++;
+        return true;
     }
 
     /**

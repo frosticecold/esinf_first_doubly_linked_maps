@@ -5,8 +5,11 @@
  */
 package model;
 
+import estruturas.RegistoCidadao;
 import estruturas.RegistoReparticao;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -21,14 +24,40 @@ public class GestaoAtendimento {
 
     private Map<Integer, Reparticao> mapaReparticaoPorNumContribuinte;
     private RegistoReparticao registoReparticao;
+    private RegistoCidadao registoCidadao;
 
     public GestaoAtendimento() {
 
         mapaReparticaoPorNumContribuinte = new HashMap<>();
         registoReparticao = new RegistoReparticao();
+        registoCidadao = new RegistoCidadao();
     }
 
     public RegistoReparticao getRegistoReparticao() {
         return registoReparticao;
+    }
+
+    public void adicionarReparticao(Reparticao r) {
+        boolean added = registoReparticao.adicionarReparticao(r, this);
+        if (added == true) {
+            passarCidadaosDeUmaReparticaoParaOutra(r);
+        }
+    }
+
+    public void passarCidadaosDeUmaReparticaoParaOutra(Reparticao r) {
+        List<Cidadao> listaCidadaosPorCodPostal = registoCidadao.obterCidadaosPorCodigoPostal(r);
+        if (!listaCidadaosPorCodPostal.isEmpty()) {
+            for (Cidadao c : listaCidadaosPorCodPostal) {
+                c.setNumReparticao(r.getNumReparticao());
+            }
+        }
+    }
+
+    public void validarTodaEstruturaDeDados() {
+        ListIterator<Reparticao> it = registoReparticao.listIterator();
+        while (it.hasNext()) {
+            Reparticao r = it.next();
+            passarCidadaosDeUmaReparticaoParaOutra(r);
+        }
     }
 }

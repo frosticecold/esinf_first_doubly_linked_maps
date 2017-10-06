@@ -9,7 +9,7 @@ package model;
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class Cidadao {
+public class Cidadao implements Comparable<Cidadao> {
 
     /**
      * Nif de um cidadão
@@ -122,6 +122,11 @@ public class Cidadao {
      */
     public void setNumReparticao(int numReparticao) {
         this.numReparticao = numReparticao;
+    }
+
+    @Override
+    public int compareTo(Cidadao o) {
+        return nome.compareTo(o.nome);
     }
 
 }
