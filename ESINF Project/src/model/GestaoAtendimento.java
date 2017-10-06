@@ -59,6 +59,9 @@ public class GestaoAtendimento {
      */
     private Map<Long, Reparticao> mapaReparticaoPorNifCidadao;
 
+    /**
+     * Construtor de uma Gestão de Atendimento
+     */
     public GestaoAtendimento() {
 
         registoReparticao = new RegistoReparticao();
@@ -70,6 +73,10 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ==============================Métodos de inicializar========================*/
+    /**
+     * Método que inicializa todos os mapas de repartições após a leitura do
+     * ficheiro
+     */
     private void inicializarMapaReparticoes() {
         ListIterator<Reparticao> it = registoReparticao.listIterator();
         while (it.hasNext()) {
@@ -102,6 +109,14 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ==============================Alinea C========================*/
+    /**
+     * Método que remove uma repartição apenas se existir mais do que uma, E
+     * passa todos os cidadãos associados a essa repartição à repartição com o
+     * código postal (4 dígitos) mais próxima;
+     *
+     * @param r Reparticao a Remover
+     * @return true or false
+     */
     public boolean removerReparticao(Reparticao r) {
         boolean removed = false;
         final int LIMITE = 1;
@@ -130,6 +145,12 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ==============================Alínea D========================*/
+    /**
+     * Retorna uma lista de CidadaoAfectos, que é que cidade, num repartição e
+     * nif de cidadãos afetados por cada repartição
+     *
+     * @return lista de CidadaoAfecto
+     */
     public List<CidadaoAfecto> quaisCidadaosAfectos() {
         List<CidadaoAfecto> listaCidadaoAfecto = new ArrayList<>();
         ListIterator<Reparticao> it = registoReparticao.listIterator();
@@ -166,11 +187,21 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ==============================Métodos de Validar========================*/
+    /**
+     * Método que vai buscar uma lista de todos os cidadãos que deveriam ser
+     * afetados por a repartição passada por parâmetro e troca as referênciais
+     * anteriores dos cidadãos para a nova repartição
+     *
+     *
+     * @param r Repartição a trocar a referência
+     */
     public void passarCidadaosDeUmaReparticaoParaOutra(Reparticao r) {
         List<Cidadao> listaCidadaosPorCodPostal = registoCidadao.obterCidadaosPorCodigoPostal(r);
         if (!listaCidadaosPorCodPostal.isEmpty()) {
             for (Cidadao c : listaCidadaosPorCodPostal) {
+                //Remover as referênciais à repartição anterior
                 mapaCidadaosPorReparticao.get(c.getNumReparticao()).remove(c);
+                //Mudar as referências para a repartição nova
                 c.setNumReparticao(r.getNumReparticao());
                 mapaCidadaosPorReparticao.get(c.getNumReparticao()).add(c);
                 mapaReparticaoPorNumReparticao.put(c.getNumReparticao(), r);
@@ -179,6 +210,10 @@ public class GestaoAtendimento {
         }
     }
 
+    /**
+     * Método chamado após a leitura de Cidadãos que valida se cidadãos estão na
+     * repartição correta
+     */
     private void validarCodigoPostalTodosCidadaos() {
         ListIterator<Reparticao> it = registoReparticao.listIterator();
         while (it.hasNext()) {
@@ -189,6 +224,12 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ============================Métodos de Obter========================*/
+    /**
+     * Método que obtém uma repartição associada a um cidadão
+     *
+     * @param nif Nif do Cidadão associado à repartição
+     * @return Repartição ou Null
+     */
     public Reparticao obterReparticaoAssociadaNif(Long nif) {
         if (mapaReparticaoPorNifCidadao.containsKey(nif)) {
             return mapaReparticaoPorNifCidadao.get(nif);
@@ -196,28 +237,12 @@ public class GestaoAtendimento {
         return null;
     }
 
-    /*==========================================================================
-    ============================Métodos de LerFicheiros========================*/
     /**
-     * Método que lê todos os ficheiros de dados, Primeiro lê o ficheiro das
-     * repartições e adiciona ao registo de repartições, depois incializa o mapa
-     * que relaciona numrepartição com cidadãos Lê o ficheiro dos cidadãos e
-     * adiciona ao registo de cidadãos Valida todos os cidadãos para pertencerem
-     * à devida repartição com o código postal correspondente Por fim lê as
-     * senhas e adiciona as senhas à repartição correspondente
+     * Métdo que obtém a Repartição mais próxima em termos de código postal
+     *
+     * @param r Repartição com o código postal a comparar
+     * @return Repartição ou null
      */
-    private void lerFicheirosDados() {
-        Ficheiro f = new Ficheiro();
-        f.lerReparticoes(this, FX_REPARTICAO);
-        inicializarMapaReparticoes();
-        f.lerCidadaos(this, FX_CIDADAOS);
-        validarCodigoPostalTodosCidadaos();
-        f.lerSenhas(this, FX_SENHAS);
-
-    }
-
-    /*==========================================================================
-    ============================Métodos Utilitários========================*/
     private Reparticao obterReparticaoMaisProximaPorCodigoPostal(Reparticao r) {
         int codPostalRep1 = Integer.parseInt(r.getCodigoPostal());
         Reparticao outraRep = null;
@@ -242,4 +267,26 @@ public class GestaoAtendimento {
         return RepaRetornar;
     }
 
+    /*==========================================================================
+    ============================Métodos de LerFicheiros========================*/
+    /**
+     * Método que lê todos os ficheiros de dados, Primeiro lê o ficheiro das
+     * repartições e adiciona ao registo de repartições, depois incializa o mapa
+     * que relaciona numrepartição com cidadãos Lê o ficheiro dos cidadãos e
+     * adiciona ao registo de cidadãos Valida todos os cidadãos para pertencerem
+     * à devida repartição com o código postal correspondente Por fim lê as
+     * senhas e adiciona as senhas à repartição correspondente
+     */
+    private void lerFicheirosDados() {
+        Ficheiro f = new Ficheiro();
+        f.lerReparticoes(this, FX_REPARTICAO);
+        inicializarMapaReparticoes();
+        f.lerCidadaos(this, FX_CIDADAOS);
+        validarCodigoPostalTodosCidadaos();
+        f.lerSenhas(this, FX_SENHAS);
+
+    }
+
+    /*==========================================================================
+    ============================Métodos Utilitários========================*/
 }
