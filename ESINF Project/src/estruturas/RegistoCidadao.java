@@ -23,7 +23,7 @@ public class RegistoCidadao implements Iterable<Cidadao> {
     /**
      * Lista de cidadãos única
      */
-    private Set<Cidadao> setCidadao;
+    private final Set<Cidadao> setCidadao;
 
     /**
      * Construtor que cria um RegistoCidadão

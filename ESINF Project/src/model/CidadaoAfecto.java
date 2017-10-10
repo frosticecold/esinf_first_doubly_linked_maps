@@ -18,7 +18,7 @@ public class CidadaoAfecto {
 
     private final String cidade;
 
-    private Set<Long> listaNif;
+    private final Set<Long> listaNif;
 
     /**
      * Construtor de um CidadaoAfecto que recebe como parâmetro um número de

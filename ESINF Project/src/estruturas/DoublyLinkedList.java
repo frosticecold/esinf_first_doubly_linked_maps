@@ -48,10 +48,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
      * @return true if the list is empty, and false otherwise
      */
     public boolean isEmpty() {
-        if (header.getNext() == trailer) {
-            return true;
-        }
-        return false;
+        return header.getNext() == trailer;
     }
 
     /**
@@ -83,9 +80,10 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
      * Adds an element e to the front of the list
      *
      * @param e element to be added to the front of the list
+     * @return boolean
      */
     public boolean addFirst(E e) {
-        boolean added = false;
+        boolean added;
         // place just after the header
         Node<E> newNode;
         if (isEmpty()) {
@@ -110,9 +108,10 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
      * Adds an element e to the end of the list
      *
      * @param e element to be added to the end of the list
+     * @return true or false
      */
     public boolean addLast(E e) {
-        boolean added = false;
+        boolean added;
         Node<E> novoNo;
         if (isEmpty()) {
             novoNo = new Node(e, header, trailer);
@@ -137,7 +136,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
      * @return the first element of the list
      */
     public E removeFirst() {
-        Node<E> removeNode = null;
+        Node<E> removeNode;
         if (isEmpty()) {
             return null;
         } else {
@@ -157,7 +156,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
      * @return the last element of the list
      */
     public E removeLast() {
-        Node<E> removeNode = null;
+        Node<E> removeNode;
         if (isEmpty()) {
             return null;
         } else {
@@ -247,6 +246,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
+        Object obj = super.clone();
         ListIterator<E> it = this.listIterator();
         DoublyLinkedList<E> dll = new DoublyLinkedList<>();
         while (it.hasNext()) {
@@ -279,10 +279,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
 
         @Override
         public boolean hasNext() {
-            if (nextNode == trailer) {
-                return false;
-            }
-            return true;
+            return nextNode != trailer;
         }
 
         @Override
@@ -302,10 +299,7 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
 
         @Override
         public boolean hasPrevious() {
-            if (prevNode == header) {
-                return false;
-            }
-            return true;
+            return prevNode != header;
         }
 
         @Override
@@ -372,6 +366,11 @@ public class DoublyLinkedList<E> implements Iterable<E>, Cloneable {
         return new DoublyLinkedListIterator();
     }
 
+    /**
+     * Doubly linked list Iterator
+     *
+     * @return ListIterator<E>
+     */
     public ListIterator<E> listIterator() {
         return new DoublyLinkedListIterator();
     }

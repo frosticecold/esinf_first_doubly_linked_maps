@@ -14,17 +14,17 @@ public class Senha {
     /**
      * Número de contribuinte de um cidadão
      */
-    private long nif;
+    private final long nif;
 
     /**
      * Código de um serviço
      */
-    private char cod_servico;
+    private final char cod_servico;
 
     /**
      * Número da ordem
      */
-    private int num_ordem;
+    private final int num_ordem;
 
     /**
      * Construtor para um objeto senha
@@ -49,9 +49,5 @@ public class Senha {
 
     public int getNumOrdem() {
         return num_ordem;
-    }
-
-    public void setNif(long nif) {
-        this.nif = nif;
     }
 }

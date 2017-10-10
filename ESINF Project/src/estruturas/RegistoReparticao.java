@@ -6,7 +6,6 @@
 package estruturas;
 
 import java.util.ListIterator;
-import model.GestaoAtendimento;
 import model.Reparticao;
 
 /**
@@ -15,18 +14,34 @@ import model.Reparticao;
  */
 public class RegistoReparticao {
 
-    private DoublyLinkedList<Reparticao> dll;
+    private final DoublyLinkedList<Reparticao> dll;
 
+    /**
+     * Construtor para um objeto do tipo RegistoReparticao
+     */
     public RegistoReparticao() {
-        dll = new DoublyLinkedList<Reparticao>();
+        dll = new DoublyLinkedList<>();
     }
 
+    /**
+     * Retorna o iterator da doublylinklist
+     *
+     * @return Iterator<Reparticao>
+     */
     public ListIterator<Reparticao> listIterator() {
         return dll.listIterator();
     }
 
     /*==========================================================================
     ==============================Métodos Public========================*/
+    /**
+     * Método que adiciona uma repartição à lista de repartições Caso esta não
+     * seja repetida na lista e Caso não exista outra repartição com o mesmo
+     * código postal
+     *
+     * @param r
+     * @return
+     */
     public boolean adicionarReparticao(Reparticao r) {
         if (dll.isEmpty()) {
             return dll.addLast(r);
@@ -41,6 +56,12 @@ public class RegistoReparticao {
         return false;
     }
 
+    /**
+     * Remove uma repartição da lista de repartições
+     *
+     * @param r Repartição a remover
+     * @return true or false
+     */
     public boolean removerReparticao(Reparticao r) {
         if (dll.isEmpty()) {
             return false;
@@ -57,6 +78,10 @@ public class RegistoReparticao {
         return false;
     }
 
+    /**
+     * Retorna quantas repartições estão guardadas
+     * @return 
+     */
     public int size() {
         return dll.size();
     }
@@ -83,8 +108,8 @@ public class RegistoReparticao {
         String cod_rep1 = r.getCodigoPostal().split(DEL)[C_COD_POSTAL];
         ListIterator<Reparticao> it = dll.listIterator();
         while (it.hasNext()) {
-            Reparticao rep = it.next();
-            String cod_rep2 = r.getCodigoPostal().split(DEL)[C_COD_POSTAL];
+            Reparticao rep2 = it.next();
+            String cod_rep2 = rep2.getCodigoPostal().split(DEL)[C_COD_POSTAL];
             if (cod_rep1.equals(cod_rep2)) {
                 repetido = true;
                 break;

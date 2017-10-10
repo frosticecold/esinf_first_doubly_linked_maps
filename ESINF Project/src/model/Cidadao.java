@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.Objects;
-
 /**
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
@@ -48,7 +46,7 @@ public class Cidadao implements Comparable<Cidadao> {
      * @param codigoPostal código postal de um cidadão
      * @param numReparticao qual o número de repartição a que pertence
      */
-    public Cidadao(String nome,long nif, String email, String codigoPostal, int numReparticao) {
+    public Cidadao(String nome, long nif, String email, String codigoPostal, int numReparticao) {
         this.nif = nif;
         this.nome = nome;
         this.email = email;
@@ -149,16 +147,13 @@ public class Cidadao implements Comparable<Cidadao> {
         if (this.numReparticao != other.numReparticao) {
             return false;
         }
-        if (!Objects.equals(this.nome, other.nome)) {
+        if (!this.nome.equals(other.nome)) {
             return false;
         }
-        if (!Objects.equals(this.email, other.email)) {
+        if (!this.email.equals(other.email)) {
             return false;
         }
-        if (!Objects.equals(this.codigoPostal, other.codigoPostal)) {
-            return false;
-        }
-        return true;
+        return this.codigoPostal.equals(other.codigoPostal);
     }
 
 }

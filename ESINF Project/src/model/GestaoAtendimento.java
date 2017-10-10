@@ -23,41 +23,41 @@ import util.Ficheiro;
 public class GestaoAtendimento {
 
     /**
-     * Nome do ficheiro ficheiro_repartições
-     */
-    private final String FX_REPARTICAO = "fx_repartições.txt";
-    /**
-     * Nome do ficheiro_cidadaos
-     */
-    private final String FX_CIDADAOS = "fx_cidadaos.txt";
-    /**
-     * Nome do ficheiro_senhas
-     */
-    private final String FX_SENHAS = "fx_senhas.txt";
-
-    /**
      * Registo de Repartições
      */
-    private RegistoReparticao registoReparticao;
+    private final RegistoReparticao registoReparticao;
     /**
      * Registo de Cidadãos
      */
-    private RegistoCidadao registoCidadao;
+    private final RegistoCidadao registoCidadao;
 
     /**
      * Mapa de cidadaos associados a uma repartição
      */
-    private Map<Integer, Set<Cidadao>> mapaCidadaosPorReparticao;
+    private final Map<Integer, Set<Cidadao>> mapaCidadaosPorReparticao;
 
     /**
      * Mapa de Repartições por Número de Repartição
      */
-    private Map<Integer, Reparticao> mapaReparticaoPorNumReparticao;
+    private final Map<Integer, Reparticao> mapaReparticaoPorNumReparticao;
 
     /**
      * Mapa de Repartição Por Nif de Cidadão
      */
-    private Map<Long, Reparticao> mapaReparticaoPorNifCidadao;
+    private final Map<Long, Reparticao> mapaReparticaoPorNifCidadao;
+
+    /**
+     * Nome do ficheiro ficheiro_repartições
+     */
+    private static final String FX_REPARTICAO = "fx_repartições.txt";
+    /**
+     * Nome do ficheiro_cidadaos
+     */
+    private static final String FX_CIDADAOS = "fx_cidadaos.txt";
+    /**
+     * Nome do ficheiro_senhas
+     */
+    private static final String FX_SENHAS = "fx_senhas.txt";
 
     /**
      * Construtor de uma Gestão de Atendimento
@@ -69,6 +69,7 @@ public class GestaoAtendimento {
         mapaCidadaosPorReparticao = new HashMap<>();
         mapaReparticaoPorNumReparticao = new HashMap<>();
         mapaReparticaoPorNifCidadao = new HashMap<>();
+        lerFicheirosDados();
     }
 
     /*==========================================================================
@@ -122,7 +123,7 @@ public class GestaoAtendimento {
         final int LIMITE = 1;
         if (registoReparticao.size() > LIMITE) {
             Reparticao repMaisProxima = obterReparticaoMaisProximaPorCodigoPostal(r);
-            Set<Cidadao> listaCidadaos = mapaCidadaosPorReparticao.get(r);
+            Set<Cidadao> listaCidadaos = mapaCidadaosPorReparticao.get(r.getNumReparticao());
             for (Cidadao c : listaCidadaos) {
                 //Remover dos mapas da reparticao antiga
                 mapaCidadaosPorReparticao.get(r.getNumReparticao()).remove(c);
@@ -158,7 +159,7 @@ public class GestaoAtendimento {
             Reparticao r = it.next();
             String cidade = r.getCidade();
             int numRep = r.getNumReparticao();
-            Set<Cidadao> setCidadao = mapaCidadaosPorReparticao.get(r);
+            Set<Cidadao> setCidadao = mapaCidadaosPorReparticao.get(r.getNumReparticao());
             CidadaoAfecto cf = new CidadaoAfecto(cidade, numRep, setCidadao);
             listaCidadaoAfecto.add(cf);
         }
@@ -176,7 +177,7 @@ public class GestaoAtendimento {
      * @return true or false
      */
     public boolean adicionarCidadao(Cidadao c) {
-        boolean added = false;
+        boolean added;
         added = registoCidadao.adicionarCidadao(c);
         if (added == true) {
             mapaCidadaosPorReparticao.get(c.getNumReparticao()).add(c);
