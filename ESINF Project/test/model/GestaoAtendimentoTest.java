@@ -12,10 +12,10 @@ import static org.junit.Assert.*;
  */
 public class GestaoAtendimentoTest {
 
-    Reparticao r;
+    Reparticao rep;
 
     public GestaoAtendimentoTest() {
-        r = new Reparticao("Porto", 1234, "4000");
+        rep = new Reparticao("Porto", 1234, "4000");
     }
 
     /**
@@ -26,9 +26,11 @@ public class GestaoAtendimentoTest {
         System.out.println("adicionarReparticao");
         GestaoAtendimento instance = new GestaoAtendimento();
         boolean expResult = true;
-        boolean result = instance.adicionarReparticao(r);
+        boolean result = instance.adicionarReparticao(rep);
         assertEquals(expResult, result);
+        //Vamos tentar adicionar repetido
         expResult = false;
+        result = instance.adicionarReparticao(rep);
         assertEquals(expResult, result);
     }
 
@@ -38,7 +40,7 @@ public class GestaoAtendimentoTest {
     @Test
     public void testRemoverReparticao() {
         System.out.println("removerReparticao");
-        Reparticao r1 = r;
+        Reparticao r1 = rep;
         GestaoAtendimento instance = new GestaoAtendimento();
         instance.adicionarReparticao(r1);
         boolean expResult = true;
@@ -53,6 +55,7 @@ public class GestaoAtendimentoTest {
     public void testQuaisCidadaosAfectos() {
         System.out.println("quaisCidadaosAfectos");
         GestaoAtendimento instance = new GestaoAtendimento();
+        instance.lerFicheirosDados();
         List<CidadaoAfecto> expResult = null;
         List<CidadaoAfecto> result = instance.quaisCidadaosAfectos();
         assertEquals(expResult, result);
@@ -64,23 +67,17 @@ public class GestaoAtendimentoTest {
     @Test
     public void testAdicionarCidadao() {
         System.out.println("adicionarCidadao");
-        Cidadao c = null;
+        Reparticao r = new Reparticao("VilaDoConde", 1234, "4480");
+        Cidadao c = new Cidadao("João", 123456789, "email@email.pt", "4480-667", 1234);
         GestaoAtendimento instance = new GestaoAtendimento();
-        boolean expResult = false;
+        instance.adicionarReparticao(r);
+        boolean expResult = true;
         boolean result = instance.adicionarCidadao(c);
         assertEquals(expResult, result);
-    }
 
-    /**
-     * Test of passarCidadaosDeUmaReparticaoParaOutra method, of class
-     * GestaoAtendimento.
-     */
-    @Test
-    public void testPassarCidadaosDeUmaReparticaoParaOutra() {
-        System.out.println("passarCidadaosDeUmaReparticaoParaOutra");
-        Reparticao r = null;
-        GestaoAtendimento instance = new GestaoAtendimento();
-        instance.passarCidadaosDeUmaReparticaoParaOutra(r);
+        expResult = false;
+        result = instance.adicionarCidadao(c);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -89,11 +86,34 @@ public class GestaoAtendimentoTest {
     @Test
     public void testObterReparticaoAssociadaNif() {
         System.out.println("obterReparticaoAssociadaNif");
-        Long nif = null;
+        Long nif = 111222333L;
         GestaoAtendimento instance = new GestaoAtendimento();
-        Reparticao expResult = null;
+        instance.lerFicheirosDados();
+        String codPostalPorto = "4200";
+        Reparticao expResult = instance.obterReparticaoPorCodigoPostal(codPostalPorto);
+        expResult.adicionarServiço('A');
+        expResult.adicionarServiço('B');
+        expResult.adicionarServiço('C');
+        expResult.adicionarServiço('D');
         Reparticao result = instance.obterReparticaoAssociadaNif(nif);
         assertEquals(expResult, result);
     }
 
+    @Test
+    public void testLerFicheiroDados() {
+        System.out.println("obterReparticaoAssociadaNif");
+        GestaoAtendimento instance = new GestaoAtendimento();
+        Reparticao rp1 = new Reparticao("Guarda", 1238, "4300");
+        Cidadao c = new Cidadao("Carlos", 11223344L, "carlos@gmail.com", "4300-010", 1238);
+        rp1.adicionarServiço('A');
+        rp1.adicionarServiço('B');
+        rp1.adicionarServiço('C');
+        instance.lerFicheirosDados();
+        List<Cidadao> lista = instance.obterCidadaosAssociadosAReparticao(rp1);
+
+        boolean expResult = true;
+        boolean result = lista.contains(c);
+        assertEquals(expResult, result);
+
+    }
 }

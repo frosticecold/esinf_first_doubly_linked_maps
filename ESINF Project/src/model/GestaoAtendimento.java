@@ -34,7 +34,7 @@ public class GestaoAtendimento {
     /**
      * Mapa de cidadaos associados a uma repartição
      */
-    private final Map<Integer, Set<Cidadao>> mapaCidadaosPorReparticao;
+    private final Map<Integer, Set<Cidadao>> mapaCidadaosPorNumReparticao;
 
     /**
      * Mapa de Repartições por Número de Repartição
@@ -65,10 +65,10 @@ public class GestaoAtendimento {
     public GestaoAtendimento() {
         registoReparticao = new RegistoReparticao();
         registoCidadao = new RegistoCidadao();
-        mapaCidadaosPorReparticao = new HashMap<>();
+        mapaCidadaosPorNumReparticao = new HashMap<>();
         mapaReparticaoPorNumReparticao = new HashMap<>();
         mapaReparticaoPorNifCidadao = new HashMap<>();
-        lerFicheirosDados();
+
     }
 
     /*==========================================================================
@@ -77,18 +77,16 @@ public class GestaoAtendimento {
      * Método que inicializa todos os mapas de repartições após a leitura do
      * ficheiro
      */
-    private void inicializarMapaReparticoes() {
-        ListIterator<Reparticao> it = registoReparticao.listIterator();
-        while (it.hasNext()) {
-            Reparticao r = it.next();
-            if (!mapaCidadaosPorReparticao.containsKey(r.getNumReparticao())) {
-                mapaCidadaosPorReparticao.put(r.getNumReparticao(), new HashSet<>());
-            }
-            if (!mapaReparticaoPorNumReparticao.containsKey(r.getNumReparticao())) {
-                mapaReparticaoPorNumReparticao.put(r.getNumReparticao(), r);
-            }
+    private void inicializarMapaReparticao(Reparticao r) {
+
+        if (!mapaCidadaosPorNumReparticao.containsKey(r.getNumReparticao())) {
+            mapaCidadaosPorNumReparticao.put(r.getNumReparticao(), new HashSet<>());
+        }
+        if (!mapaReparticaoPorNumReparticao.containsKey(r.getNumReparticao())) {
+            mapaReparticaoPorNumReparticao.put(r.getNumReparticao(), r);
         }
     }
+
 
     /*==========================================================================
     ==============================Alínea B========================*/
@@ -104,6 +102,7 @@ public class GestaoAtendimento {
     public boolean adicionarReparticao(Reparticao r) {
         boolean added = registoReparticao.adicionarReparticao(r);
         if (added == true) {
+            inicializarMapaReparticao(r);
             passarCidadaosDeUmaReparticaoParaOutra(r);
             return true;
         }
@@ -122,24 +121,31 @@ public class GestaoAtendimento {
      */
     public boolean removerReparticao(Reparticao r) {
         boolean removed = false;
-        final int LIMITE = 1;
+        final int LIMITE = 0;
         if (registoReparticao.size() > LIMITE) {
-            Reparticao repMaisProxima = obterReparticaoMaisProximaPorCodigoPostal(r);
-            Set<Cidadao> listaCidadaos = mapaCidadaosPorReparticao.get(r.getNumReparticao());
+            Reparticao repMaisProxima = null;
+            Set<Cidadao> listaCidadaos = null;
+            if (registoReparticao.size() > 0) {
+                repMaisProxima = obterReparticaoMaisProximaPorCodigoPostal(r);
+                listaCidadaos = mapaCidadaosPorNumReparticao.get(r.getNumReparticao());
+            }
             for (Cidadao c : listaCidadaos) {
                 //Remover dos mapas da reparticao antiga
-                mapaCidadaosPorReparticao.get(r.getNumReparticao()).remove(c);
+                mapaCidadaosPorNumReparticao.get(r.getNumReparticao()).remove(c);
                 mapaReparticaoPorNifCidadao.remove(c.getNif());
                 mapaReparticaoPorNumReparticao.remove(r.getNumReparticao());
 
-                //Alterar num reparticao de um cidadao
-                c.setNumReparticao(repMaisProxima.getNumReparticao());
-                //Adicionar aos mapas da reparticao nova
-                mapaCidadaosPorReparticao.get(repMaisProxima.getNumReparticao()).add(c);
-                mapaReparticaoPorNifCidadao.put(c.getNif(), repMaisProxima);
-                if (removed == false) {
-                    removed = true;
+                if (repMaisProxima != null && listaCidadaos != null) {
+                    //Alterar num reparticao de um cidadao
+                    c.setNumReparticao(repMaisProxima.getNumReparticao());
+                    //Adicionar aos mapas da reparticao nova
+                    mapaCidadaosPorNumReparticao.get(repMaisProxima.getNumReparticao()).add(c);
+                    mapaReparticaoPorNifCidadao.put(c.getNif(), repMaisProxima);
+
                 }
+            }
+            if (removed == false) {
+                removed = true;
             }
             registoReparticao.removerReparticao(r);
         }
@@ -161,7 +167,7 @@ public class GestaoAtendimento {
             Reparticao r = it.next();
             String cidade = r.getCidade();
             int numRep = r.getNumReparticao();
-            Set<Cidadao> setCidadao = mapaCidadaosPorReparticao.get(r.getNumReparticao());
+            Set<Cidadao> setCidadao = mapaCidadaosPorNumReparticao.get(r.getNumReparticao());
             CidadaoAfecto cf = new CidadaoAfecto(cidade, numRep, setCidadao);
             listaCidadaoAfecto.add(cf);
         }
@@ -182,7 +188,7 @@ public class GestaoAtendimento {
         boolean added;
         added = registoCidadao.adicionarCidadao(c);
         if (added == true) {
-            mapaCidadaosPorReparticao.get(c.getNumReparticao()).add(c);
+            mapaCidadaosPorNumReparticao.get(c.getNumReparticao()).add(c);
             mapaReparticaoPorNifCidadao.put(c.getNif(), mapaReparticaoPorNumReparticao.get(c.getNumReparticao()));
         }
         return added;
@@ -198,15 +204,15 @@ public class GestaoAtendimento {
      *
      * @param r Repartição a trocar a referência
      */
-    public void passarCidadaosDeUmaReparticaoParaOutra(Reparticao r) {
+    private void passarCidadaosDeUmaReparticaoParaOutra(Reparticao r) {
         List<Cidadao> listaCidadaosPorCodPostal = registoCidadao.obterCidadaosPorCodigoPostal(r);
         if (!listaCidadaosPorCodPostal.isEmpty()) {
             for (Cidadao c : listaCidadaosPorCodPostal) {
                 //Remover as referênciais à repartição anterior
-                mapaCidadaosPorReparticao.get(c.getNumReparticao()).remove(c);
+                mapaCidadaosPorNumReparticao.get(c.getNumReparticao()).remove(c);
                 //Mudar as referências para a repartição nova
                 c.setNumReparticao(r.getNumReparticao());
-                mapaCidadaosPorReparticao.get(c.getNumReparticao()).add(c);
+                mapaCidadaosPorNumReparticao.get(c.getNumReparticao()).add(c);
                 mapaReparticaoPorNumReparticao.put(c.getNumReparticao(), r);
 
             }
@@ -280,10 +286,9 @@ public class GestaoAtendimento {
      * à devida repartição com o código postal correspondente Por fim lê as
      * senhas e adiciona as senhas à repartição correspondente
      */
-    private void lerFicheirosDados() {
+    public void lerFicheirosDados() {
         Ficheiro f = new Ficheiro();
         f.lerReparticoes(this, FX_REPARTICAO);
-        inicializarMapaReparticoes();
         f.lerCidadaos(this, FX_CIDADAOS);
         validarCodigoPostalTodosCidadaos();
         f.lerSenhas(this, FX_SENHAS);
@@ -291,5 +296,34 @@ public class GestaoAtendimento {
     }
 
     /*==========================================================================
-    ============================Métodos Utilitários========================*/
+    ============================Métodos Utilitários e Testes========================*/
+    public List<Reparticao> obterListaReparticoes() {
+        List<Reparticao> lista = new ArrayList<>();
+        ListIterator<Reparticao> it = registoReparticao.listIterator();
+        while (it.hasNext()) {
+            lista.add(it.next());
+        }
+        return lista;
+    }
+
+    public List<Cidadao> obterCidadaosAssociadosAReparticao(Reparticao r) {
+        List<Cidadao> lista = new ArrayList<>();
+        if (!mapaCidadaosPorNumReparticao.get(r.getNumReparticao()).isEmpty()) {
+            for (Cidadao c : mapaCidadaosPorNumReparticao.get(r.getNumReparticao())) {
+                lista.add(c);
+            }
+        }
+        return lista;
+    }
+
+    public Reparticao obterReparticaoPorCodigoPostal(String codPostal) {
+        ListIterator<Reparticao> it = registoReparticao.listIterator();
+        while (it.hasNext()) {
+            Reparticao r = it.next();
+            if (r.getCodigoPostal().equals(codPostal)) {
+                return r;
+            }
+        }
+        return null;
+    }
 }

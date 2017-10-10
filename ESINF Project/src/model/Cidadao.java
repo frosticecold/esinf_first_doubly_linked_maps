@@ -153,7 +153,15 @@ public class Cidadao implements Comparable<Cidadao> {
         if (!this.email.equals(other.email)) {
             return false;
         }
-        return this.codigoPostal.equals(other.codigoPostal);
+        if(!this.codigoPostal.equals(other.codigoPostal)){
+        return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Cidadao{" + "nif=" + nif + ", nome=" + nome + ", email=" + email + ", codigoPostal=" + codigoPostal + ", numReparticao=" + numReparticao + '}';
     }
 
 }

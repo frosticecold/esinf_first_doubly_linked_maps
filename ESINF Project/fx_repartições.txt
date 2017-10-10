@@ -1,4 +1,5 @@
 Porto,1234,4200,A,C,D
 Maia,1235,4470,A,B
-Vila do Conde,1236,4480,A,B,C,D
+ViladoConde,1236,4480,A,B,C,D
 Ovar,1237,3880,A,B,E
+Guarda,1238,4300,A,B,C

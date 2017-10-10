@@ -70,9 +70,7 @@ public class Ficheiro {
                     r.adicionarServiço(ls[j].charAt(0));
                 }
             }
-        }
-        if (r != null) {
-            System.out.println(r);
+            ga.adicionarReparticao(r);
         }
     }
 
