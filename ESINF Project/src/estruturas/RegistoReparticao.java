@@ -103,13 +103,11 @@ public class RegistoReparticao {
 
     private boolean verificarCodigoPostalRepetido(Reparticao r) {
         boolean repetido = false;
-        final int C_COD_POSTAL = 0;
-        final String DEL = "-";
-        String cod_rep1 = r.getCodigoPostal().split(DEL)[C_COD_POSTAL];
+        String cod_rep1 = r.getCodigoPostal();
         ListIterator<Reparticao> it = dll.listIterator();
         while (it.hasNext()) {
             Reparticao rep2 = it.next();
-            String cod_rep2 = rep2.getCodigoPostal().split(DEL)[C_COD_POSTAL];
+            String cod_rep2 = rep2.getCodigoPostal();
             if (cod_rep1.equals(cod_rep2)) {
                 repetido = true;
                 break;

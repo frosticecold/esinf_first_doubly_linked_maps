@@ -12,9 +12,9 @@ import static org.junit.Assert.*;
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class SenhaIT {
+public class SenhaTest {
 
-    public SenhaIT() {
+    public SenhaTest() {
     }
 
     /**

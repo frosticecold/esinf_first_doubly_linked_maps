@@ -50,7 +50,7 @@ public class Reparticao {
     /**
      * Valor omissao de um contador
      */
-    private static int VALOR_CONTADOR_OMISSAO = 0;
+    private static final int VALOR_CONTADOR_OMISSAO = 0;
 
     public Reparticao(String cidade, int numReparticao, String codigoPostal) {
         this.cidade = cidade;
@@ -97,12 +97,18 @@ public class Reparticao {
         }
         return false;
     }
-
+    
+    /**
+     * Método que adiciona senhas ao set de Senhas caso já não existam
+     * 
+     * @param senha Senha a adicionar
+     * @return true or false
+     */
     public boolean adicionarSenha(Senha senha) {
         if (listaServicos.contains(senha.getCodServico())) {
             listaSenhas.addLast(senha);
             Integer contador = mapaContadorSenhasPorServico.get(senha.getCodServico());
-            contador++;
+            mapaContadorSenhasPorServico.put(senha.getCodServico(), contador + 1);
             return true;
         }
         return false;
@@ -172,11 +178,7 @@ public class Reparticao {
         if (!Objects.equals(this.codigoPostal, other.codigoPostal)) {
             return false;
         }
-        if (!Objects.equals(this.listaServicos, other.listaServicos)) {
-            return false;
-        }
-
-        return true;
+        return Objects.equals(this.listaServicos, other.listaServicos);
     }
 
     @Override

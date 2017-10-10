@@ -12,11 +12,11 @@ import static org.junit.Assert.*;
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class CidadaoIT {
+public class CidadaoTest {
 
     Cidadao c1, c2;
 
-    public CidadaoIT() {
+    public CidadaoTest() {
         //Cidadao c1
         long nif = 123456789;
         String nome = "José";
@@ -145,6 +145,33 @@ public class CidadaoIT {
         instance.setNumReparticao(numReparticao);
 
         assertEquals(numReparticao, c1.getNumReparticao());
+    }
+
+    /**
+     * Test of compareTo method, of class Cidadao.
+     */
+    @Test
+    public void testCompareTo() {
+        System.out.println("compareTo");
+        int expResult = c1.getNome().compareTo(c2.getNome());
+        int result = c1.compareTo(c2);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Cidadao.
+     */
+    @Test
+    public void testEquals() {
+        System.out.println("equals");
+        boolean expResult = false;
+        boolean result = c1.equals(c2);
+        assertEquals(expResult, result);
+        
+        Cidadao c3 = new Cidadao("José", 123456789, "emaila@mail.pt", "4480-667", 12345);
+        expResult = true;
+        result = c1.equals(c3);
+        assertEquals(expResult, result);
     }
 
 }
