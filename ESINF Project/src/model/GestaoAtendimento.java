@@ -63,7 +63,6 @@ public class GestaoAtendimento {
      * Construtor de uma Gestão de Atendimento
      */
     public GestaoAtendimento() {
-
         registoReparticao = new RegistoReparticao();
         registoCidadao = new RegistoCidadao();
         mapaCidadaosPorReparticao = new HashMap<>();
@@ -100,12 +99,15 @@ public class GestaoAtendimento {
      * devem ser adicionados
      *
      * @param r Repartição a adicionar
+     * @return True or False
      */
-    public void adicionarReparticao(Reparticao r) {
+    public boolean adicionarReparticao(Reparticao r) {
         boolean added = registoReparticao.adicionarReparticao(r);
         if (added == true) {
             passarCidadaosDeUmaReparticaoParaOutra(r);
+            return true;
         }
+        return false;
     }
 
     /*==========================================================================
