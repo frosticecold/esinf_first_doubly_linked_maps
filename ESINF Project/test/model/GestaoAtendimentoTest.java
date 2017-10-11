@@ -2,7 +2,10 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -56,8 +59,14 @@ public class GestaoAtendimentoTest {
         System.out.println("quaisCidadaosAfectos");
         GestaoAtendimento instance = new GestaoAtendimento();
         instance.lerFicheirosDados();
-        List<CidadaoAfecto> expResult = null;
-        List<CidadaoAfecto> result = instance.quaisCidadaosAfectos();
+        Set<Cidadao> lc1 = new HashSet<>();
+        Cidadao c_1 = new Cidadao("Ana",111222333,"ana@gmail.com","4200-072",1234);
+        Cidadao c_2 = new Cidadao("Berta",223344,"berta@gmail.com","4200-071",1234);
+        lc1.add(c_2);
+        lc1.add(c_1);
+        CidadaoAfecto c1 = new CidadaoAfecto("Porto", 1234, lc1);
+        String expResult = c1.toString();
+        String result = instance.quaisCidadaosAfectos().get(0).toString();
         assertEquals(expResult, result);
     }
 
