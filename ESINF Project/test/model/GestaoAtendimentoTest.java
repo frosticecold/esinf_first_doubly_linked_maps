@@ -5,6 +5,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -60,8 +61,8 @@ public class GestaoAtendimentoTest {
         GestaoAtendimento instance = new GestaoAtendimento();
         instance.lerFicheirosDados();
         Set<Cidadao> lc1 = new HashSet<>();
-        Cidadao c_1 = new Cidadao("Ana",111222333,"ana@gmail.com","4200-072",1234);
-        Cidadao c_2 = new Cidadao("Berta",223344,"berta@gmail.com","4200-071",1234);
+        Cidadao c_1 = new Cidadao("Ana", 111222333, "ana@gmail.com", "4200-072", 1234);
+        Cidadao c_2 = new Cidadao("Berta", 222333444, "berta@gmail.com", "4200-071", 1234);
         lc1.add(c_2);
         lc1.add(c_1);
         CidadaoAfecto c1 = new CidadaoAfecto("Porto", 1234, lc1);
@@ -124,5 +125,18 @@ public class GestaoAtendimentoTest {
         boolean result = lista.contains(c);
         assertEquals(expResult, result);
 
+    }
+
+    @Test
+    public void testDeterminarServicosComMaiorProcura() {
+        System.out.println("determinarServicosComMaiorProcura");
+        GestaoAtendimento instance = new GestaoAtendimento();
+        instance.lerFicheirosDados();
+        //Declarado em 11/10/2017 3 senhas de A no ficheiro ficheiro_senhas.txt
+        int numSenhasA = 3;
+        char tipoServico = 'A';
+        Map<Character, Integer> determinarServicosComMaiorProcura = instance.determinarServicosComMaiorProcura();
+        int result = determinarServicosComMaiorProcura.get(tipoServico);
+        assertEquals(numSenhasA, result);
     }
 }

@@ -208,10 +208,32 @@ public class GestaoAtendimento {
         final int MIN_MINUTOS = 0;
         final int MAX_MINUTOS = 60;
         if (hora >= HORA_ABERTURA && hora <= HORA_FECHO) {
-
         }
     }
 
+    /*==========================================================================
+    ==============================Alínea G========================*/
+    public Map<Character, Integer> determinarServicosComMaiorProcura() {
+        ListIterator<Reparticao> it = registoReparticao.listIterator();
+        Map<Character, Integer> mapaNumeroSenhasPorServico = new HashMap<>();
+        while (it.hasNext()) {
+            Reparticao r = it.next();
+            Map<Character, Integer> outroMapa = r.determinarProcura();
+            if (!outroMapa.isEmpty()) {
+                for (Character ch : outroMapa.keySet()) {
+                    if (mapaNumeroSenhasPorServico.containsKey(ch)) {
+                        int cont = mapaNumeroSenhasPorServico.get(ch);
+                        cont += outroMapa.get(ch);
+                        mapaNumeroSenhasPorServico.put(ch, cont);
+                    } else {
+                        int cont = outroMapa.get(ch);
+                        mapaNumeroSenhasPorServico.put(ch, cont);
+                    }
+                }
+            }
+        }
+        return mapaNumeroSenhasPorServico;
+    }
 
     /*==========================================================================
     ==============================Métodos de Validar========================*/
@@ -325,6 +347,13 @@ public class GestaoAtendimento {
         return lista;
     }
 
+    /**
+     * Retorna uma Lista de Cidadãos associados a uma repartição Para questões
+     * de teste
+     *
+     * @param r Repartição
+     * @return Lista de Cidadãos
+     */
     public List<Cidadao> obterCidadaosAssociadosAReparticao(Reparticao r) {
         List<Cidadao> lista = new ArrayList<>();
         if (!mapaCidadaosPorNumReparticao.get(r.getNumReparticao()).isEmpty()) {
@@ -335,6 +364,13 @@ public class GestaoAtendimento {
         return lista;
     }
 
+    /**
+     * Retorna uma Reparticao através do código postal associado Para questão de
+     * teste
+     *
+     * @param codPostal CodPostal
+     * @return Lista de Cidadãos
+     */
     public Reparticao obterReparticaoPorCodigoPostal(String codPostal) {
         ListIterator<Reparticao> it = registoReparticao.listIterator();
         while (it.hasNext()) {
@@ -346,6 +382,13 @@ public class GestaoAtendimento {
         return null;
     }
 
+    /**
+     * Retorna uma lista de cidadadãos através do código postal associado Para
+     * questão de testes
+     *
+     * @param r
+     * @return
+     */
     public List<Cidadao> obterCidadaosPorCodigoPostal(Reparticao r) {
         List<Cidadao> lista = registoCidadao.obterCidadaosPorCodigoPostal(r);
         return lista;

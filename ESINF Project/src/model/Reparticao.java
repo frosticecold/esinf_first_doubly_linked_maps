@@ -232,4 +232,14 @@ public class Reparticao {
         return "Reparticao{" + "cidade=" + cidade + ", numReparticao=" + numReparticao + ", codigoPostal=" + codigoPostal + ", listaServicos=" + listaServicos + '}';
     }
 
+    public Map<Character, Integer> determinarProcura() {
+
+        Map<Character, Integer> mapaNumSenhasPorServico = new HashMap<>();
+        for (Character c : listaServicos) {
+            int size = mapaListaSenhasPorServico.get(c).size();
+            mapaNumSenhasPorServico.put(c, size);
+        }
+
+        return mapaNumSenhasPorServico;
+    }
 }
