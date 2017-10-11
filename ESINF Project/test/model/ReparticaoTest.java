@@ -89,7 +89,7 @@ public class ReparticaoTest {
         boolean result = instance.adicionarSenha(senha);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of adicionarSenha method, of class Reparticao.
      */
@@ -114,10 +114,10 @@ public class ReparticaoTest {
         final int NUM_SENHA = 2;
         Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
         instance.adicionarServiço(cod_servico);
-        
+
         Senha senha = new Senha(nif, cod_servico, NUM_REPARTICAO);
         instance.adicionarSenha(senha);
-        
+
         int expResult = NUM_SENHA;
         int result = instance.tirarSenha(nif, cod_servico).getNumOrdem();
         assertEquals(expResult, result);
@@ -132,25 +132,21 @@ public class ReparticaoTest {
         long nif = 123456789;
         Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
         instance.adicionarServiço('A');
+        instance.adicionarServiço('B');
         instance.tirarSenha(nif, 'A');
+        instance.tirarSenha(nif, 'B');
         boolean expResult = true;
         boolean result = instance.abandonarFilas(nif);
         assertEquals(expResult, result);
-    }
-    
-    /**
-     * Test of abandonarFilas method, of class Reparticao.
-     */
-    @Test
-    public void testAbandonarFilasFail() {
-        System.out.println("abandonarFilasFail");
-        long nif = 123456789;
-        Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
-        instance.adicionarServiço('A');
-        instance.tirarSenha(nif, 'A');
-        boolean expResult = false;
-        boolean result = instance.abandonarFilas(123456798);
-        assertEquals(expResult, result);
+
+        int nrSenhas = 0;
+        int expres = nrSenhas;
+        int res = instance.quantasSenhasPorServico('A');
+        assertEquals(expres, res);
+
+        expres = nrSenhas;
+        res = instance.quantasSenhasPorServico('B');
+        assertEquals(expres, res);
     }
 
     /**
@@ -165,7 +161,7 @@ public class ReparticaoTest {
         boolean result = r2.equals(r);
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Test of equals method, of class Reparticao.
      */

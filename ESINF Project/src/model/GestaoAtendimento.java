@@ -195,6 +195,25 @@ public class GestaoAtendimento {
     }
 
     /*==========================================================================
+    ==============================Alínea F========================*/
+    public void conhecerUtilizacaoReparticao(Reparticao r, int hora, int min) {
+        final int MIN_HORA = 9;
+        final int MAX_HORA = 15;
+
+        final int HORA_ABERTURA = 9;
+        final int HORA_FECHO = 15;
+        final int MIN_ABERTURA = 0;
+        final int MIN_FECHO = 30;
+
+        final int MIN_MINUTOS = 0;
+        final int MAX_MINUTOS = 60;
+        if (hora >= HORA_ABERTURA && hora <= HORA_FECHO) {
+
+        }
+    }
+
+
+    /*==========================================================================
     ==============================Métodos de Validar========================*/
     /**
      * Método que vai buscar uma lista de todos os cidadãos que deveriam ser

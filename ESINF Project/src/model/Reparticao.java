@@ -6,8 +6,10 @@
 package model;
 
 import estruturas.DoublyLinkedList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
@@ -38,10 +40,14 @@ public class Reparticao {
     private Set<Character> listaServicos;
 
     /**
-     * Mapa com contador por determinado serviço
+     * Mapa com as listas das Senhas Por Serviço
      */
-    private Map<Character, Integer> mapaContadorSenhasPorServico;
+    private Map<Character, List<Senha>> mapaListaSenhasPorServico;
 
+    /**
+     * Mapa de Serviços por Cidadao
+     */
+    private Map<Long, Set<Character>> mapaServicosPorNif;
     /**
      * Lista duplamente ligada com as senhas
      */
@@ -59,8 +65,11 @@ public class Reparticao {
 
         //Inicializar contentores
         listaServicos = new HashSet<>();
-        mapaContadorSenhasPorServico = new HashMap();
+
         listaSenhas = new DoublyLinkedList<>();
+
+        mapaListaSenhasPorServico = new HashMap();
+        mapaServicosPorNif = new HashMap<>();
     }
 
     /**
@@ -92,23 +101,26 @@ public class Reparticao {
      */
     public boolean adicionarServiço(char c) {
         if (!listaServicos.contains(c)) {
-            mapaContadorSenhasPorServico.put(c, VALOR_CONTADOR_OMISSAO);
+            mapaListaSenhasPorServico.put(c, new ArrayList<>());
             return listaServicos.add(c);
         }
         return false;
     }
-    
+
     /**
      * Método que adiciona senhas ao set de Senhas caso já não existam
-     * 
+     *
      * @param senha Senha a adicionar
      * @return true or false
      */
     public boolean adicionarSenha(Senha senha) {
         if (listaServicos.contains(senha.getCodServico())) {
             listaSenhas.addLast(senha);
-            Integer contador = mapaContadorSenhasPorServico.get(senha.getCodServico());
-            mapaContadorSenhasPorServico.put(senha.getCodServico(), contador + 1);
+            mapaListaSenhasPorServico.get(senha.getCodServico()).add(senha);
+            if (mapaServicosPorNif.get(senha.getNif()) == null) {
+                mapaServicosPorNif.put(senha.getNif(), new HashSet<>());
+            }
+            mapaServicosPorNif.get(senha.getNif()).add(senha.getCodServico());
             return true;
         }
         return false;
@@ -123,10 +135,15 @@ public class Reparticao {
      * @return
      */
     public Senha tirarSenha(long nif, char cod_servico) {
-        int contador = mapaContadorSenhasPorServico.get(cod_servico);
+        int contador = mapaListaSenhasPorServico.get(cod_servico).size();
         contador++;
         Senha senha = new Senha(nif, cod_servico, contador);
         listaSenhas.addLast(senha);
+        mapaListaSenhasPorServico.get(cod_servico).add(senha);
+        if (mapaServicosPorNif.get(nif) == null) {
+            mapaServicosPorNif.put(nif, new HashSet<>());
+        }
+        mapaServicosPorNif.get(nif).add(senha.getCodServico());
         return senha;
     }
 
@@ -139,14 +156,43 @@ public class Reparticao {
     public boolean abandonarFilas(long nif) {
         boolean removed = false;
         ListIterator<Senha> it = listaSenhas.listIterator();
-        while (it.hasNext()) {
-            Senha s = it.next();
-            if (s.getNif() == nif) {
-                it.remove();
-                removed = true;
+
+        if (mapaServicosPorNif.containsKey(nif)) {
+            Set<Character> setChar = mapaServicosPorNif.get(nif);
+            Set<Character> setCharARemover = new HashSet<>();
+            Senha senha = null;
+            List<Senha> listaSenhas = null;
+            for (Character c : setChar) {
+                listaSenhas = mapaListaSenhasPorServico.get(c);
+                int size = listaSenhas.size();
+                for (int i = 0; i < size; i++) {
+                    if (listaSenhas.get(i).getNif() == nif) {
+                        setCharARemover.add(c);
+                        listaSenhas.remove(i);
+                        size--;
+                        removed = true;
+                    }
+                }
+            }
+            for (Character c : setCharARemover) {
+                mapaServicosPorNif.get(nif).remove(c);
+            }
+
+            if (removed == true) {
+                while (it.hasNext()) {
+                    Senha s = it.next();
+                    if (s.getNif() == nif) {
+                        it.remove();
+                        removed = true;
+                    }
+                }
             }
         }
         return removed;
+    }
+
+    public int quantasSenhasPorServico(char cod_servico) {
+        return mapaListaSenhasPorServico.get(cod_servico).size();
     }
 
     @Override
