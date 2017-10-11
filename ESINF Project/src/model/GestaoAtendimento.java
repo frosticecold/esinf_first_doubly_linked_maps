@@ -326,4 +326,9 @@ public class GestaoAtendimento {
         }
         return null;
     }
+
+    public List<Cidadao> obterCidadaosPorCodigoPostal(Reparticao r) {
+        List<Cidadao> lista = registoCidadao.obterCidadaosPorCodigoPostal(r);
+        return lista;
+    }
 }

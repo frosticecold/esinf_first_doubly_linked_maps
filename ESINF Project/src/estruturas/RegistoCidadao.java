@@ -47,16 +47,6 @@ public class RegistoCidadao implements Iterable<Cidadao> {
     }
 
     /**
-     * Iterador do setCidadao
-     *
-     * @return
-     */
-    @Override
-    public Iterator<Cidadao> iterator() {
-        return setCidadao.iterator();
-    }
-
-    /**
      * Método que percorre o registo de cidadãos e devolve uma lista com os
      * cidadãos com o mesmo código postal da repartição passada por parâmetro
      *
@@ -75,5 +65,15 @@ public class RegistoCidadao implements Iterable<Cidadao> {
         }
         Collections.sort(listaCidadaosPorCodPostal);
         return listaCidadaosPorCodPostal;
+    }
+
+    /**
+     * Iterador do setCidadao
+     *
+     * @return
+     */
+    @Override
+    public Iterator<Cidadao> iterator() {
+        return setCidadao.iterator();
     }
 }
