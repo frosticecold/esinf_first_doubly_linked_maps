@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class CidadaoAfecto {
+public class CidadaosAfetosPorReparticao {
 
     private final int numReparticao;
 
@@ -28,24 +28,13 @@ public class CidadaoAfecto {
      * @param cidade
      * @param listaCidadao
      */
-    public CidadaoAfecto(String cidade, int numReparticao, Set<Cidadao> listaCidadao) {
+    public CidadaosAfetosPorReparticao(String cidade, int numReparticao, Set<Cidadao> listaCidadao) {
         this.numReparticao = numReparticao;
         this.cidade = cidade;
         this.listaNif = new HashSet<>();
         copiarListaCidadaosParaListaNif(listaCidadao);
     }
 
-    /**
-     * Copia os nifs de uma lista de cidadaos
-     *
-     * @param listaCidadao Lista de Cidadaos a copiar os nifs
-     */
-    private void copiarListaCidadaosParaListaNif(Set<Cidadao> listaCidadao) {
-        for (Cidadao c : listaCidadao) {
-            listaNif.add(c.getNif());
-        }
-
-    }
 
     public int getNumReparticao() {
         return numReparticao;
@@ -62,5 +51,17 @@ public class CidadaoAfecto {
     @Override
     public String toString() {
         return "CidadaoAfecto{" + "numReparticao=" + numReparticao + ", cidade=" + cidade + ", listaNif=" + listaNif + '}';
+    }
+    
+    /**
+     * Copia os nifs de uma lista de cidadaos
+     *
+     * @param listaCidadao Lista de Cidadaos a copiar os nifs
+     */
+    private void copiarListaCidadaosParaListaNif(Set<Cidadao> listaCidadao) {
+        for (Cidadao c : listaCidadao) {
+            listaNif.add(c.getNif());
+        }
+
     }
 }

@@ -46,8 +46,8 @@ public class Cidadao implements Comparable<Cidadao> {
      * @param codigoPostal código postal de um cidadão
      * @param numReparticao qual o número de repartição a que pertence
      */
-    public Cidadao(String nome, long nif, String email, String codigoPostal, int numReparticao) {
-        this.nif = nif;
+    public Cidadao(String nome, long nif, String email, String codigoPostal, int numReparticao) { 
+        this.nif = nif; 
         this.nome = nome;
         this.email = email;
         this.codigoPostal = codigoPostal;

@@ -160,15 +160,15 @@ public class GestaoAtendimento {
      *
      * @return lista de CidadaoAfecto
      */
-    public List<CidadaoAfecto> quaisCidadaosAfectos() {
-        List<CidadaoAfecto> listaCidadaoAfecto = new ArrayList<>();
+    public List<CidadaosAfetosPorReparticao> quaisCidadaosAfectos() {
+        List<CidadaosAfetosPorReparticao> listaCidadaoAfecto = new ArrayList<>();
         ListIterator<Reparticao> it = registoReparticao.listIterator();
         while (it.hasNext()) {
             Reparticao r = it.next();
             String cidade = r.getCidade();
             int numRep = r.getNumReparticao();
             Set<Cidadao> setCidadao = mapaCidadaosPorNumReparticao.get(r.getNumReparticao());
-            CidadaoAfecto cf = new CidadaoAfecto(cidade, numRep, setCidadao);
+            CidadaosAfetosPorReparticao cf = new CidadaosAfetosPorReparticao(cidade, numRep, setCidadao);
             listaCidadaoAfecto.add(cf);
         }
         return listaCidadaoAfecto;
@@ -233,43 +233,6 @@ public class GestaoAtendimento {
             }
         }
         return mapaNumeroSenhasPorServico;
-    }
-
-    /*==========================================================================
-    ==============================Métodos de Validar========================*/
-    /**
-     * Método que vai buscar uma lista de todos os cidadãos que deveriam ser
-     * afetados por a repartição passada por parâmetro e troca as referênciais
-     * anteriores dos cidadãos para a nova repartição
-     *
-     *
-     * @param r Repartição a trocar a referência
-     */
-    private void passarCidadaosDeUmaReparticaoParaOutra(Reparticao r) {
-        List<Cidadao> listaCidadaosPorCodPostal = registoCidadao.obterCidadaosPorCodigoPostal(r);
-        if (!listaCidadaosPorCodPostal.isEmpty()) {
-            for (Cidadao c : listaCidadaosPorCodPostal) {
-                //Remover as referênciais à repartição anterior
-                mapaCidadaosPorNumReparticao.get(c.getNumReparticao()).remove(c);
-                //Mudar as referências para a repartição nova
-                c.setNumReparticao(r.getNumReparticao());
-                mapaCidadaosPorNumReparticao.get(c.getNumReparticao()).add(c);
-                mapaReparticaoPorNumReparticao.put(c.getNumReparticao(), r);
-
-            }
-        }
-    }
-
-    /**
-     * Método chamado após a leitura de Cidadãos que valida se cidadãos estão na
-     * repartição correta
-     */
-    private void validarCodigoPostalTodosCidadaos() {
-        ListIterator<Reparticao> it = registoReparticao.listIterator();
-        while (it.hasNext()) {
-            Reparticao r = it.next();
-            passarCidadaosDeUmaReparticaoParaOutra(r);
-        }
     }
 
     /*==========================================================================
@@ -393,4 +356,42 @@ public class GestaoAtendimento {
         List<Cidadao> lista = registoCidadao.obterCidadaosPorCodigoPostal(r);
         return lista;
     }
+
+    /*==========================================================================
+    ==============================Métodos de Validar========================*/
+    /**
+     * Método que vai buscar uma lista de todos os cidadãos que deveriam ser
+     * afetados por a repartição passada por parâmetro e troca as referênciais
+     * anteriores dos cidadãos para a nova repartição
+     *
+     *
+     * @param r Repartição a trocar a referência
+     */
+    private void passarCidadaosDeUmaReparticaoParaOutra(Reparticao r) {
+        List<Cidadao> listaCidadaosPorCodPostal = registoCidadao.obterCidadaosPorCodigoPostal(r);
+        if (!listaCidadaosPorCodPostal.isEmpty()) {
+            for (Cidadao c : listaCidadaosPorCodPostal) {
+                //Remover as referênciais à repartição anterior
+                mapaCidadaosPorNumReparticao.get(c.getNumReparticao()).remove(c);
+                //Mudar as referências para a repartição nova
+                c.setNumReparticao(r.getNumReparticao());
+                mapaCidadaosPorNumReparticao.get(c.getNumReparticao()).add(c);
+                mapaReparticaoPorNumReparticao.put(c.getNumReparticao(), r);
+
+            }
+        }
+    }
+
+    /**
+     * Método chamado após a leitura de Cidadãos que valida se cidadãos estão na
+     * repartição correta
+     */
+    private void validarCodigoPostalTodosCidadaos() {
+        ListIterator<Reparticao> it = registoReparticao.listIterator();
+        while (it.hasNext()) {
+            Reparticao r = it.next();
+            passarCidadaosDeUmaReparticaoParaOutra(r);
+        }
+    }
+
 }

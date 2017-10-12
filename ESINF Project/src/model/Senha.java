@@ -50,4 +50,10 @@ public class Senha {
     public int getNumOrdem() {
         return num_ordem;
     }
+
+    @Override
+    public String toString() {
+        return "Senha{" + "nif=" + nif + ", cod_servico=" + cod_servico + ", num_ordem=" + num_ordem + '}';
+    }
+
 }

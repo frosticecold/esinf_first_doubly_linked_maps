@@ -43,40 +43,40 @@ public class RegistoReparticao {
      * @return
      */
     public boolean adicionarReparticao(Reparticao r) {
-        if (dll.isEmpty()) {
-            return dll.addLast(r);
+        if (dll.isEmpty()) {                                        //O(1)
+            return dll.addLast(r);                                  //O(1)
 
         } else {
-            boolean existe = verificarSeReparticaoJaExiste(r);
-            boolean repetido = verificarCodigoPostalRepetido(r);
-            if (existe == false && repetido == false) {
-                return dll.addLast(r);
+            boolean existe = verificarSeReparticaoJaExiste(r);      //O(n)
+            boolean repetido = verificarCodigoPostalRepetido(r);    //O(n)
+            if (existe == false && repetido == false) {             //O(1)
+                return dll.addLast(r);                              //O(1)
             }
         }
-        return false;
-    }
-
+        return false;                                               //O(1)
+    }                                                               //Total O(n)
+    
     /**
      * Remove uma repartição da lista de repartições
      *
      * @param r Repartição a remover
      * @return true or false
      */
-    public boolean removerReparticao(Reparticao r) {
-        if (dll.isEmpty()) {
-            return false;
+    public boolean removerReparticao(Reparticao r) {        
+        if (dll.isEmpty()) {                                        //O(1)
+            return false;                                           //O(1)
         } else {
-            ListIterator<Reparticao> it = dll.listIterator();
-            while (it.hasNext()) {
-                Reparticao oRep = it.next();
-                if (r.equals(oRep)) {
-                    it.remove();
-                    return true;
+            ListIterator<Reparticao> it = dll.listIterator();       //O(1)
+            while (it.hasNext()) {                                  //O(n)
+                Reparticao oRep = it.next();                        //O(1)
+                if (r.equals(oRep)) {                               //O(1)
+                    it.remove();                                    //O(1)
+                    return true;                                    //O(1)
                 }
             }
         }
-        return false;
-    }
+        return false;                                               //O(1)
+    }                                                               //Total O(n)
 
     /**
      * Retorna quantas repartições estão guardadas
@@ -89,31 +89,31 @@ public class RegistoReparticao {
     /*==========================================================================
     ==============================Métodos Private========================*/
     private boolean verificarSeReparticaoJaExiste(Reparticao r) {
-        boolean existe = false;
-        ListIterator<Reparticao> it = dll.listIterator();
-        while (it.hasNext()) {
-            Reparticao rep = it.next();
-            if (r.equals(rep)) {
-                existe = true;
-                break;
+        boolean existe = false;                                  //O(1)       
+        ListIterator<Reparticao> it = dll.listIterator();        //O(1)
+        while (it.hasNext()) {                                   //O(n)
+            Reparticao rep = it.next();                          //O(1)
+            if (r.equals(rep)) {                                 //O(1)
+                existe = true;                                   //O(1)
+                break;                                           //O(1)
             }
         }
-        return existe;
-    }
+        return existe;                                           //O(1)
+    }                                                            //Total O(n)
 
     private boolean verificarCodigoPostalRepetido(Reparticao r) {
-        boolean repetido = false;
-        String cod_rep1 = r.getCodigoPostal();
-        ListIterator<Reparticao> it = dll.listIterator();
-        while (it.hasNext()) {
-            Reparticao rep2 = it.next();
-            String cod_rep2 = rep2.getCodigoPostal();
-            if (cod_rep1.equals(cod_rep2)) {
-                repetido = true;
-                break;
+        boolean repetido = false;                               //O(1)
+        String cod_rep1 = r.getCodigoPostal();                  //O(1)
+        ListIterator<Reparticao> it = dll.listIterator();       //O(1)
+        while (it.hasNext()) {                                  //O(n)
+            Reparticao rep2 = it.next();                        //O(1)
+            String cod_rep2 = rep2.getCodigoPostal();           //O(1)
+            if (cod_rep1.equals(cod_rep2)) {                    //O(1)
+                repetido = true;                                //O(1)
+                break;                                          //O(1)
             }
         }
-        return repetido;
-    }
+        return repetido;                                        //O(1)
+    }                                                           //Total O(n)
 
 }

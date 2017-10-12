@@ -63,19 +63,19 @@ public class ReparticaoTest {
     }
 
     /**
-     * Test of adicionarServiço method, of class Reparticao.
+     * Test of adicionarServico method, of class Reparticao.
      */
     @Test
     public void testAdicionarServiço() {
-        System.out.println("adicionarServiço");
+        System.out.println("adicionarServico");
 
         Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
         boolean expResult = true;
-        boolean result = instance.adicionarServiço('A');
+        boolean result = instance.adicionarServico('A');
         assertEquals(expResult, result);
 
         expResult = false;
-        result = instance.adicionarServiço('A');
+        result = instance.adicionarServico('A');
         assertEquals(expResult, result);
     }
 
@@ -87,7 +87,7 @@ public class ReparticaoTest {
         System.out.println("adicionarSenha");
         Senha senha = new Senha(123456789, 'A', 0);
         Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
-        instance.adicionarServiço('A');
+        instance.adicionarServico('A');
         boolean expResult = true;
         boolean result = instance.adicionarSenha(senha);
         assertEquals(expResult, result);
@@ -116,7 +116,7 @@ public class ReparticaoTest {
         char cod_servico = 'A';
         final int NUM_SENHA = 2;
         Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
-        instance.adicionarServiço(cod_servico);
+        instance.adicionarServico(cod_servico);
 
         Senha senha = new Senha(nif, cod_servico, NUM_REPARTICAO);
         instance.adicionarSenha(senha);
@@ -134,8 +134,8 @@ public class ReparticaoTest {
         System.out.println("abandonarFilas");
         long nif = 123456789;
         Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
-        instance.adicionarServiço('A');
-        instance.adicionarServiço('B');
+        instance.adicionarServico('A');
+        instance.adicionarServico('B');
         instance.tirarSenha(nif, 'A');
         instance.tirarSenha(nif, 'B');
         boolean expResult = true;
@@ -190,10 +190,10 @@ public class ReparticaoTest {
         Senha s3 = new Senha(123455789, 'D', 8);
         Senha s4 = new Senha(123475789, 'A', 2);
         Senha s5 = new Senha(129392789, 'A', 3);
-        instance.adicionarServiço('A');
-        instance.adicionarServiço('B');
-        instance.adicionarServiço('C');
-        instance.adicionarServiço('D');
+        instance.adicionarServico('A');
+        instance.adicionarServico('B');
+        instance.adicionarServico('C');
+        instance.adicionarServico('D');
         
         instance.adicionarSenha(s1);
         instance.adicionarSenha(s2);
@@ -244,10 +244,10 @@ public class ReparticaoTest {
         Senha s3 = new Senha(123455789, 'D', 8);
         Senha s4 = new Senha(123475789, 'A', 2);
         Senha s5 = new Senha(129392789, 'A', 3);
-        instance.adicionarServiço('A');
-        instance.adicionarServiço('B');
-        instance.adicionarServiço('C');
-        instance.adicionarServiço('D');
+        instance.adicionarServico('A');
+        instance.adicionarServico('B');
+        instance.adicionarServico('C');
+        instance.adicionarServico('D');
         
         instance.adicionarSenha(s1);
         instance.adicionarSenha(s2);

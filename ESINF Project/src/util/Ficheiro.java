@@ -33,23 +33,23 @@ public class Ficheiro {
      * @param nomeFicheiro String com o nome do ficheiro
      * @return List<String> com conteúdo do ficheiro
      */
-    public List<String> lerFicheiro(String nomeFicheiro) {
-        Scanner scn = null;
-        List<String> lista = new ArrayList<>();
+    public List<String> lerFicheiro(String nomeFicheiro) {                      
+        Scanner scn = null;                                                     //O(1)
+        List<String> lista = new ArrayList<>();                                 //O(1)
         try {
-            scn = new Scanner(new FileReader(nomeFicheiro));
-            while (scn.hasNext()) {
-                lista.add(scn.next());
+            scn = new Scanner(new FileReader(nomeFicheiro));                    //O(1)
+            while (scn.hasNext()) {                                             //O(n)
+                lista.add(scn.next());                                          //O(1)
             }
         } catch (FileNotFoundException ex) {
-            System.out.printf("Foi impossível ler o ficheiro %s\n", nomeFicheiro);
+            System.out.printf("Foi impossível ler o ficheiro %s\n", nomeFicheiro);//O(1)
         } finally {
-            if (scn != null) {
-                scn.close();
+            if (scn != null) {                                                  //O(1)
+                scn.close();                                                    //O(1)
             }
         }
-        return lista;
-    }
+        return lista;                                                           //O(1)
+    }                                                                           //Total O(n)
 
     /**
      * Método que lê todas as repartições para a Gestão de Atendimento E
@@ -59,20 +59,20 @@ public class Ficheiro {
      * @param nomeFicheiro nome do ficheiro
      */
     public void lerReparticoes(GestaoAtendimento ga, String nomeFicheiro) {
-        Reparticao r = null;
-        final int C_CIDADE = 0, C_NUMREP = 1, C_CODPOSTAL = 2;
-        List<String> lista = lerFicheiro(nomeFicheiro);
-        for (int i = 0; i < lista.size(); i++) {
-            String ls[] = lista.get(i).split(DELIMITADOR);
-            r = new Reparticao(ls[C_CIDADE], Integer.parseInt(ls[C_NUMREP]), ls[C_CODPOSTAL]);
-            if (ls.length > C_CODPOSTAL + 1) {
-                for (int j = C_CODPOSTAL + 1; j < ls.length; j++) {
-                    r.adicionarServiço(ls[j].charAt(0));
+        Reparticao r = null;                                                    //O(1)
+        final int C_CIDADE = 0, C_NUMREP = 1, C_CODPOSTAL = 2;                  //O(1)
+        List<String> lista = lerFicheiro(nomeFicheiro);                         //O(n)
+        for (int i = 0; i < lista.size(); i++) {                                //O(n) * O(n) * O(n) = O(n^3)
+            String ls[] = lista.get(i).split(DELIMITADOR);                      //O(n)
+            r = new Reparticao(ls[C_CIDADE], Integer.parseInt(ls[C_NUMREP]), ls[C_CODPOSTAL]);//O(1)
+            if (ls.length > C_CODPOSTAL + 1) {                                  //O(1)
+                for (int j = C_CODPOSTAL + 1; j < ls.length; j++) {             //O(n)
+                    r.adicionarServico(ls[j].charAt(0));                        //O(1)
                 }
             }
-            ga.adicionarReparticao(r);
+            ga.adicionarReparticao(r);                                          //O(1)
         }
-    }
+    }                                                                           //Total O(n^3)
 
     /**
      * Método que lê todos os cidadãos de um ficheiro de texto
