@@ -65,7 +65,7 @@ public class GestaoAtendimentoTest {
         Cidadao c_2 = new Cidadao("Berta", 222333444, "berta@gmail.com", "4200-071", 1234);
         lc1.add(c_2);
         lc1.add(c_1);
-        CidadaoAfecto c1 = new CidadaoAfecto("Porto", 1234, lc1);
+        CidadaosAfetosPorReparticao c1 = new CidadaosAfetosPorReparticao("Porto", 1234, lc1);
         String expResult = c1.toString();
         String result = instance.quaisCidadaosAfectos().get(0).toString();
         assertEquals(expResult, result);
@@ -101,10 +101,10 @@ public class GestaoAtendimentoTest {
         instance.lerFicheirosDados();
         String codPostalPorto = "4200";
         Reparticao expResult = instance.obterReparticaoPorCodigoPostal(codPostalPorto);
-        expResult.adicionarServiço('A');
-        expResult.adicionarServiço('B');
-        expResult.adicionarServiço('C');
-        expResult.adicionarServiço('D');
+        expResult.adicionarServico('A');
+        expResult.adicionarServico('B');
+        expResult.adicionarServico('C');
+        expResult.adicionarServico('D');
         Reparticao result = instance.obterReparticaoAssociadaNif(nif);
         assertEquals(expResult, result);
     }
@@ -115,9 +115,9 @@ public class GestaoAtendimentoTest {
         GestaoAtendimento instance = new GestaoAtendimento();
         Reparticao rp1 = new Reparticao("Guarda", 1238, "4300");
         Cidadao c = new Cidadao("Carlos", 11223344L, "carlos@gmail.com", "4300-010", 1238);
-        rp1.adicionarServiço('A');
-        rp1.adicionarServiço('B');
-        rp1.adicionarServiço('C');
+        rp1.adicionarServico('A');
+        rp1.adicionarServico('B');
+        rp1.adicionarServico('C');
         instance.lerFicheirosDados();
         List<Cidadao> lista = instance.obterCidadaosAssociadosAReparticao(rp1);
 
