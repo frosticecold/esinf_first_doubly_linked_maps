@@ -5,6 +5,9 @@
  */
 package model;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -169,9 +172,95 @@ public class ReparticaoTest {
     public void testEqualsFail() {
         System.out.println("equalsFalse");
         Reparticao r = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
-        Reparticao r1 = new Reparticao("Lisboa", 3214, "1000");
+        Reparticao r2 = new Reparticao("Lisboa", 3214, "1000");
         boolean expResult = false;
-        boolean result = r1.equals(r);
+        boolean result = r2.equals(r);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of quantasSenhasPorServico method, of class Reparticao.
+     */
+    @Test
+    public void testQuantasSenhasPorServico() {
+        System.out.println("quantasSenhasPorServico");
+        Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        Senha s1 = new Senha(123456789, 'A', 1);
+        Senha s2 = new Senha(123456719, 'C', 5);
+        Senha s3 = new Senha(123455789, 'D', 8);
+        Senha s4 = new Senha(123475789, 'A', 2);
+        Senha s5 = new Senha(129392789, 'A', 3);
+        instance.adicionarServiço('A');
+        instance.adicionarServiço('B');
+        instance.adicionarServiço('C');
+        instance.adicionarServiço('D');
+        
+        instance.adicionarSenha(s1);
+        instance.adicionarSenha(s2);
+        instance.adicionarSenha(s3);
+        instance.adicionarSenha(s4);
+        instance.adicionarSenha(s5);
+        int expResult = 3;
+        int result = instance.quantasSenhasPorServico('A');
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of hashCode method, of class Reparticao.
+     */
+    @Test
+    public void testHashCode() {
+        System.out.println("hashCode");
+        Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        int hash = 5;
+        hash = 97 * hash + instance.getNumReparticao();
+        hash = 97 * hash + Objects.hashCode(instance.getCodigoPostal());
+        int expResult = hash;
+        int result = instance.hashCode();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of toString method, of class Reparticao.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        String expResult = "Reparticao{cidade=Porto, numReparticao=1234, codigoPostal=4000, listaServicos=[]}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of determinarProcura method, of class Reparticao.
+     */
+    @Test
+    public void testDeterminarProcura() {
+        System.out.println("determinarProcura");
+        Reparticao instance = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        Senha s1 = new Senha(123456789, 'A', 1);
+        Senha s2 = new Senha(123456719, 'C', 5);
+        Senha s3 = new Senha(123455789, 'D', 8);
+        Senha s4 = new Senha(123475789, 'A', 2);
+        Senha s5 = new Senha(129392789, 'A', 3);
+        instance.adicionarServiço('A');
+        instance.adicionarServiço('B');
+        instance.adicionarServiço('C');
+        instance.adicionarServiço('D');
+        
+        instance.adicionarSenha(s1);
+        instance.adicionarSenha(s2);
+        instance.adicionarSenha(s3);
+        instance.adicionarSenha(s4);
+        instance.adicionarSenha(s5);
+        
+        Map<Character, Integer> expResult = new HashMap<>();
+        expResult.put('A', 3);
+        expResult.put('B', 0);
+        expResult.put('C', 1);
+        expResult.put('D', 1);
+        Map<Character, Integer> result = instance.determinarProcura();
         assertEquals(expResult, result);
     }
 

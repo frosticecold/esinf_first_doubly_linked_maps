@@ -174,4 +174,16 @@ public class CidadaoTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of toString method, of class Cidadao.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Cidadao instance = new Cidadao("José", 123456789, "emaila@email.pt", "4480-667", 12345);
+        String expResult = "Cidadao{nif=123456789, nome=José, email=emaila@email.pt, codigoPostal=4480-667, numReparticao=12345}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+    }
+
 }

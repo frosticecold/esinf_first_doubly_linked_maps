@@ -17,11 +17,11 @@ import static org.junit.Assert.*;
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class RegistoCidadaoIT {
+public class RegistoCidadaoTest {
 
     GestaoAtendimento ga;
 
-    public RegistoCidadaoIT() {
+    public RegistoCidadaoTest() {
         ga = new GestaoAtendimento();
         ga.lerFicheirosDados();
     }
@@ -56,7 +56,7 @@ public class RegistoCidadaoIT {
         RegistoCidadao reg = new RegistoCidadao();
         Reparticao porto = ga.obterReparticaoPorCodigoPostal("4200");
         Cidadao a = new Cidadao("Ana", 111222333L, "ana@gmail.com", "4200-072", 1234);
-        Cidadao b = new Cidadao("Berta", 223344L, "berta@gmail.com", "4200-071", 1234);
+        Cidadao b = new Cidadao("Berta", 222333444L, "berta@gmail.com", "4200-071", 1234);
         Cidadao c = new Cidadao("Manuel", 584769L, "manuel@gmail.com", "4715-357", 1235);
         Cidadao d = new Cidadao("Carlos", 11223344L, "carlos@gmail.com", "4300-010", 1236);
         

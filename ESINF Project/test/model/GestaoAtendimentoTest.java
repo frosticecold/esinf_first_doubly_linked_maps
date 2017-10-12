@@ -17,9 +17,13 @@ import static org.junit.Assert.*;
 public class GestaoAtendimentoTest {
 
     Reparticao rep;
+    
+    private static final String CID_OMISSAO = "Porto";
+    private static final int NUM_REPARTICAO = 1234;
+    private static final String COD_POSTAL = "4000";
 
     public GestaoAtendimentoTest() {
-        rep = new Reparticao("Porto", 1234, "4000");
+        rep = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
     }
 
     /**
@@ -138,5 +142,95 @@ public class GestaoAtendimentoTest {
         Map<Character, Integer> determinarServicosComMaiorProcura = instance.determinarServicosComMaiorProcura();
         int result = determinarServicosComMaiorProcura.get(tipoServico);
         assertEquals(numSenhasA, result);
+    }
+
+    /**
+     * Test of conhecerUtilizacaoReparticao method, of class GestaoAtendimento.
+     */
+    @Test
+    public void testConhecerUtilizacaoReparticao() {
+        System.out.println("conhecerUtilizacaoReparticao");
+        Reparticao r = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        int hora = 0;
+        int min = 0;
+        GestaoAtendimento instance = new GestaoAtendimento();
+        instance.conhecerUtilizacaoReparticao(r, hora, min); 
+    }
+
+    /**
+     * Test of obterListaReparticoes method, of class GestaoAtendimento.
+     */
+    @Test
+    public void testObterListaReparticoes() {
+        System.out.println("obterListaReparticoes");
+        GestaoAtendimento instance = new GestaoAtendimento();
+        Reparticao r = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        instance.adicionarReparticao(r);
+        Reparticao r2 = new Reparticao("Lisboa", 1235, "1000");
+        instance.adicionarReparticao(r2);
+        List<Reparticao> expResult = new ArrayList<>();
+        expResult.add(r);
+        expResult.add(r2);
+        List<Reparticao> result = instance.obterListaReparticoes();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of obterCidadaosAssociadosAReparticao method, of class GestaoAtendimento.
+     */
+    @Test
+    public void testObterCidadaosAssociadosAReparticao() {
+        System.out.println("obterCidadaosAssociadosAReparticao");
+        Reparticao r = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        GestaoAtendimento instance = new GestaoAtendimento();
+        instance.adicionarReparticao(r);
+        Cidadao c = new Cidadao("José", 123456789, "emaila@email.pt", "4000-367", 1234);
+        Cidadao c1 = new Cidadao("Maria", 247018481, "emailb@email.pt", "4082-090", 1234);
+        Cidadao c2 = new Cidadao("Alberto", 345128679, "emailc@email.pt", "4021-237", 1234);
+        instance.adicionarCidadao(c);
+        instance.adicionarCidadao(c1);
+        instance.adicionarCidadao(c2);
+        List<Cidadao> expResult = new ArrayList<>();
+        expResult.add(c2);
+        expResult.add(c1);
+        expResult.add(c);
+        List<Cidadao> result = instance.obterCidadaosAssociadosAReparticao(r);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of obterReparticaoPorCodigoPostal method, of class GestaoAtendimento.
+     */
+    @Test
+    public void testObterReparticaoPorCodigoPostal() {
+        System.out.println("obterReparticaoPorCodigoPostal");
+        String codPostal = COD_POSTAL;
+        GestaoAtendimento instance = new GestaoAtendimento();
+        Reparticao r = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        instance.adicionarReparticao(r);
+        Reparticao expResult = r;
+        Reparticao result = instance.obterReparticaoPorCodigoPostal(codPostal);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of obterCidadaosPorCodigoPostal method, of class GestaoAtendimento.
+     */
+    @Test
+    public void testObterCidadaosPorCodigoPostal() {
+        System.out.println("obterCidadaosPorCodigoPostal");
+        Reparticao r = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
+        GestaoAtendimento instance = new GestaoAtendimento();
+        instance.adicionarReparticao(r);
+        Cidadao c = new Cidadao("José", 123456789, "emaila@email.pt", "4000-367", 1234);
+        Cidadao c1 = new Cidadao("Maria", 247018481, "emailb@email.pt", "4082-090", 1234);
+        Cidadao c2 = new Cidadao("Alberto", 345128679, "emailc@email.pt", "4021-237", 1234);
+        instance.adicionarCidadao(c);
+        instance.adicionarCidadao(c1);
+        instance.adicionarCidadao(c2);
+        List<Cidadao> expResult = new ArrayList<>();
+        expResult.add(c);
+        List<Cidadao> result = instance.obterCidadaosPorCodigoPostal(r);
+        assertEquals(expResult, result);
     }
 }
