@@ -65,10 +65,16 @@ public class GestaoAtendimentoTest {
         GestaoAtendimento instance = new GestaoAtendimento();
         instance.lerFicheirosDados();
         Set<Cidadao> lc1 = new HashSet<>();
-        Cidadao c_1 = new Cidadao("Ana", 111222333, "ana@gmail.com", "4200-072", 1234);
-        Cidadao c_2 = new Cidadao("Berta", 222333444, "berta@gmail.com", "4200-071", 1234);
-        lc1.add(c_2);
-        lc1.add(c_1);
+        Cidadao a = new Cidadao("Ana", 111222333L, "ana@gmail.com", "4200-072", 1234);
+        Cidadao b = new Cidadao("Berta", 222333444L, "berta@gmail.com", "4200-071", 1234);
+        Cidadao c = new Cidadao("Beatriz",141478792,"beatriz@gmail.com","4200-048",1234);
+        Cidadao d = new Cidadao("Martim",176568493,"martim@gmail.com","4200-932",1234);
+        Cidadao e = new Cidadao("Paulo",197784479,"paulo@gmail.com","4200-829",1234);
+        lc1.add(a);
+        lc1.add(b);
+        lc1.add(c);
+        lc1.add(d);
+        lc1.add(e);
         CidadaosAfetosPorReparticao c1 = new CidadaosAfetosPorReparticao("Porto", 1234, lc1);
         String expResult = c1.toString();
         String result = instance.quaisCidadaosAfectos().get(0).toString();
@@ -136,8 +142,8 @@ public class GestaoAtendimentoTest {
         System.out.println("determinarServicosComMaiorProcura");
         GestaoAtendimento instance = new GestaoAtendimento();
         instance.lerFicheirosDados();
-        //Declarado em 11/10/2017 3 senhas de A no ficheiro ficheiro_senhas.txt
-        int numSenhasA = 3;
+        //Declarado em 13/10/2017 10 senhas de A no ficheiro ficheiro_senhas.txt
+        int numSenhasA = 10;
         char tipoServico = 'A';
         Map<Character, Integer> determinarServicosComMaiorProcura = instance.determinarServicosComMaiorProcura();
         int result = determinarServicosComMaiorProcura.get(tipoServico);

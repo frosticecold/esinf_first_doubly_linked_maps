@@ -5,7 +5,6 @@
  */
 package estruturas;
 
-import java.util.Iterator;
 import java.util.List;
 import model.Cidadao;
 import model.GestaoAtendimento;
@@ -57,16 +56,18 @@ public class RegistoCidadaoTest {
         Reparticao porto = ga.obterReparticaoPorCodigoPostal("4200");
         Cidadao a = new Cidadao("Ana", 111222333L, "ana@gmail.com", "4200-072", 1234);
         Cidadao b = new Cidadao("Berta", 222333444L, "berta@gmail.com", "4200-071", 1234);
-        Cidadao c = new Cidadao("Manuel", 584769L, "manuel@gmail.com", "4715-357", 1235);
-        Cidadao d = new Cidadao("Carlos", 11223344L, "carlos@gmail.com", "4300-010", 1236);
+        Cidadao c = new Cidadao("Beatriz",141478792,"beatriz@gmail.com","4200-048",1234);
+        Cidadao d = new Cidadao("Martim",176568493,"martim@gmail.com","4200-932",1234);
+        Cidadao e = new Cidadao("Paulo",197784479,"paulo@gmail.com","4200-829",1234);
         
         reg.adicionarCidadao(a);
         reg.adicionarCidadao(b);
         reg.adicionarCidadao(c);
         reg.adicionarCidadao(d);
+        reg.adicionarCidadao(e);
         
         List<Cidadao> expResult = reg.obterCidadaosPorCodigoPostal(porto);
-        List<Cidadao> result = ga.obterCidadaosPorCodigoPostal(porto);
+        List<Cidadao> result = ga.obterCidadaosPorCodigoPostal(porto).subList(0, 5);
         assertEquals(expResult, result);
     }
 

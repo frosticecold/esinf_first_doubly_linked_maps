@@ -3,3 +3,5 @@ Maia,1235,4470,A,B
 ViladoConde,1236,4480,A,B,C,D
 Ovar,1237,3880,A,B,E
 Guarda,1238,4300,A,B,C
+Vilamoura,1239,8125,A,B,D
+Lisboa,1240,1000,A,B,C,D
