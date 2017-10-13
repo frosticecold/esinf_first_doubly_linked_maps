@@ -12,7 +12,7 @@ import java.util.Set;
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class CidadaosAfetosPorReparticao {
+public class CidadaosAfetadosPorReparticao {
 
     private final int numReparticao;
 
@@ -28,7 +28,7 @@ public class CidadaosAfetosPorReparticao {
      * @param cidade
      * @param listaCidadao
      */
-    public CidadaosAfetosPorReparticao(String cidade, int numReparticao, Set<Cidadao> listaCidadao) {
+    public CidadaosAfetadosPorReparticao(String cidade, int numReparticao, Set<Cidadao> listaCidadao) {
         this.numReparticao = numReparticao;
         this.cidade = cidade;
         this.listaNif = new HashSet<>();

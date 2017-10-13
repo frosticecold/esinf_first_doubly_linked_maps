@@ -75,7 +75,7 @@ public class GestaoAtendimentoTest {
         lc1.add(c);
         lc1.add(d);
         lc1.add(e);
-        CidadaosAfetosPorReparticao c1 = new CidadaosAfetosPorReparticao("Porto", 1234, lc1);
+        CidadaosAfetadosPorReparticao c1 = new CidadaosAfetadosPorReparticao("Porto", 1234, lc1);
         String expResult = c1.toString();
         String result = instance.quaisCidadaosAfectos().get(0).toString();
         assertEquals(expResult, result);
@@ -148,19 +148,6 @@ public class GestaoAtendimentoTest {
         Map<Character, Integer> determinarServicosComMaiorProcura = instance.determinarServicosComMaiorProcura();
         int result = determinarServicosComMaiorProcura.get(tipoServico);
         assertEquals(numSenhasA, result);
-    }
-
-    /**
-     * Test of conhecerUtilizacaoReparticao method, of class GestaoAtendimento.
-     */
-    @Test
-    public void testConhecerUtilizacaoReparticao() {
-        System.out.println("conhecerUtilizacaoReparticao");
-        Reparticao r = new Reparticao(CID_OMISSAO, NUM_REPARTICAO, COD_POSTAL);
-        int hora = 0;
-        int min = 0;
-        GestaoAtendimento instance = new GestaoAtendimento();
-        instance.conhecerUtilizacaoReparticao(r, hora, min); 
     }
 
     /**
@@ -239,4 +226,17 @@ public class GestaoAtendimentoTest {
         List<Cidadao> result = instance.obterCidadaosPorCodigoPostal(r);
         assertEquals(expResult, result);
     }
+    @Test
+    public void testconhecerUtilizacaoReparticao(){
+        System.out.println("conhecerUtilizacaoReparticao");
+        int hora = 10;
+        int min = 30;
+        GestaoAtendimento instance = new GestaoAtendimento();
+        instance.lerFicheirosDados();
+        //Vamos obter a Reparticao do Porto
+        Reparticao r = instance.obterReparticaoPorCodigoPostal("4200");
+        Map<Integer, List<Senha>> conhecerUtilizacaoReparticao = instance.conhecerUtilizacaoReparticao(rep, hora, min);
+    
+    }
+   
 }

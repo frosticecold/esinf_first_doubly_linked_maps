@@ -29,7 +29,7 @@ public class CidadaoAfectoTest {
     public void testGetNumReparticao() {
         final int numReparticao = 1234;
         System.out.println("getNumReparticao");
-        CidadaosAfetosPorReparticao instance = new CidadaosAfetosPorReparticao("Porto", numReparticao, listaCidadao);
+        CidadaosAfetadosPorReparticao instance = new CidadaosAfetadosPorReparticao("Porto", numReparticao, listaCidadao);
         int expResult = numReparticao;
         int result = instance.getNumReparticao();
         assertEquals(expResult, result);
@@ -41,7 +41,7 @@ public class CidadaoAfectoTest {
     @Test
     public void testGetCidade() {
         System.out.println("getCidade");
-        CidadaosAfetosPorReparticao instance = new CidadaosAfetosPorReparticao("Porto", 1234, listaCidadao);
+        CidadaosAfetadosPorReparticao instance = new CidadaosAfetadosPorReparticao("Porto", 1234, listaCidadao);
         String expResult = "Porto";
         String result = instance.getCidade();
         assertEquals(expResult, result);
@@ -53,7 +53,7 @@ public class CidadaoAfectoTest {
     @Test
     public void testGetListaNif() {
         System.out.println("getListaNif");
-        CidadaosAfetosPorReparticao instance = new CidadaosAfetosPorReparticao("Porto", 1234, listaCidadao);
+        CidadaosAfetadosPorReparticao instance = new CidadaosAfetadosPorReparticao("Porto", 1234, listaCidadao);
         Set<Long> listaNif = new HashSet<>();
         long l1 = 123456789;
         long l2 = 123465789;
