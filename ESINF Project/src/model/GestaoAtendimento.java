@@ -160,15 +160,15 @@ public class GestaoAtendimento {
      *
      * @return lista de CidadaoAfecto
      */
-    public List<CidadaosAfetosPorReparticao> quaisCidadaosAfectos() {
-        List<CidadaosAfetosPorReparticao> listaCidadaoAfecto = new ArrayList<>();
+    public List<CidadaosAfetadosPorReparticao> quaisCidadaosAfectos() {
+        List<CidadaosAfetadosPorReparticao> listaCidadaoAfecto = new ArrayList<>();
         ListIterator<Reparticao> it = registoReparticao.listIterator();
         while (it.hasNext()) {
             Reparticao r = it.next();
             String cidade = r.getCidade();
             int numRep = r.getNumReparticao();
             Set<Cidadao> setCidadao = mapaCidadaosPorNumReparticao.get(r.getNumReparticao());
-            CidadaosAfetosPorReparticao cf = new CidadaosAfetosPorReparticao(cidade, numRep, setCidadao);
+            CidadaosAfetadosPorReparticao cf = new CidadaosAfetadosPorReparticao(cidade, numRep, setCidadao);
             listaCidadaoAfecto.add(cf);
         }
         return listaCidadaoAfecto;
@@ -196,19 +196,42 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ==============================Alínea F========================*/
-    public void conhecerUtilizacaoReparticao(Reparticao r, int hora, int min) {
+    public Map<Integer, List<Senha>> conhecerUtilizacaoReparticao(Reparticao r, int hora, int min) {
         final int MIN_HORA = 9;
         final int MAX_HORA = 15;
 
         final int HORA_ABERTURA = 9;
         final int HORA_FECHO = 15;
+
         final int MIN_ABERTURA = 0;
         final int MIN_FECHO = 30;
 
         final int MIN_MINUTOS = 0;
         final int MAX_MINUTOS = 60;
-        if (hora >= HORA_ABERTURA && hora <= HORA_FECHO) {
+
+        final int TEMPO_MEDIA_SENHAS = 10;
+
+        Map<Integer, List<Senha>> mapaUtilizacao = null;
+        boolean valid = true;
+
+        if (hora < HORA_ABERTURA || hora > HORA_FECHO) {
+            valid = false;
         }
+        if (valid == true && min < MIN_MINUTOS && min >= MAX_MINUTOS) {
+            valid = false;
+        }
+        if (valid == true && hora == MAX_HORA && min > MIN_FECHO) {
+            valid = false;
+        }
+
+        if (valid == true) {
+            int horasEmMinutos = Math.abs(hora - HORA_ABERTURA) * 60;
+            int nrSenhas = (horasEmMinutos + min) / 10;
+            mapaUtilizacao = r.conhecerUtilizacaoReparticao(nrSenhas);
+        }
+        
+        return mapaUtilizacao;
+
     }
 
     /*==========================================================================

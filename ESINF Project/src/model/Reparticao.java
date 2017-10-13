@@ -99,6 +99,7 @@ public class Reparticao {
      * @param c Serviço a adicionar
      * @return true or false
      */
+    //Modificado
     public boolean adicionarServico(char c) {
         if (!listaServicos.contains(c)) {
             mapaListaSenhasPorServico.put(c, new ArrayList<>());
@@ -114,6 +115,7 @@ public class Reparticao {
      * @param senha Senha a adicionar
      * @return true or false
      */
+    //Modificado
     public boolean adicionarSenha(Senha senha) {                                //O(1)
         if (listaServicos.contains(senha.getCodServico())) {                    //O(1)
             listaSenhas.addLast(senha);                                         //O(1)
@@ -155,6 +157,7 @@ public class Reparticao {
      * @param nif NIF do cidadão
      * @return true or false
      */
+    //Modificado
     public boolean abandonarFilas(long nif) {
         boolean removed = false;                                            //O(1)   
         ListIterator<Senha> it = listaSenhas.listIterator();                //O(1)
@@ -164,18 +167,20 @@ public class Reparticao {
             Set<Character> setCharARemover = new HashSet<>();               //O(1)
             Senha senha = null;                                             //O(1)
             List<Senha> listaSenhas = null;                                 //O(1)
-            for (Character c : setChar) {                                   //O(n^2)
+            for (Character c : setChar) {                                   //O(n) * O(n) = O(n^2)
                 listaSenhas = mapaListaSenhasPorServico.get(c);             //O(1)
-                int size = listaSenhas.size();                              //O(1)
-                for (int i = 0; i < size; i++) {                            //O(n)
-                    if (listaSenhas.get(i).getNif() == nif) {               //O(1)
+
+                ListIterator<Senha> it_interno = listaSenhas.listIterator();
+                while (it_interno.hasNext()) {                              //O(n)
+                    senha = it_interno.next();                              //O(1)
+                    if (senha.getNif() == nif) {                            //O(1)
                         setCharARemover.add(c);                             //O(1)
-                        listaSenhas.remove(i);                              //O(1)
-                        size--;                                             //O(1)
+                        it_interno.remove();                                //O(1)
                         removed = true;                                     //O(1)
                     }
                 }
             }
+
             for (Character c : setCharARemover) {                           //O(n)
                 mapaServicosPorNif.get(nif).remove(c);                      //O(1)
             }
@@ -219,6 +224,55 @@ public class Reparticao {
 
         return mapaNumSenhasPorServico;                                         //O(1)
     }                                                                           //Total = O(n)
+
+    //Método não testado
+    public Map<Integer, List<Senha>> conhecerUtilizacaoReparticao(int numSenhasPorDezMinutos) {
+        Map<Integer, List<Senha>> mapaSenhasAtendidasPorDezMin = new HashMap<>();
+
+        DoublyLinkedList<Senha> listaSenhasRemovidas = new DoublyLinkedList<>();
+
+        for (Senha s : listaSenhas) {
+            listaSenhasRemovidas.addLast(s);
+        }
+
+        ListIterator<Senha> it = listaSenhasRemovidas.listIterator();
+        int index = 0;
+        for (int i = 0; i < numSenhasPorDezMinutos; i++) {
+            if (!listaSenhasRemovidas.isEmpty()) {
+                if (mapaSenhasAtendidasPorDezMin.get(i) == null) {
+                    mapaSenhasAtendidasPorDezMin.put(i, new ArrayList<>());
+                }
+                List<Senha> lista = mapaSenhasAtendidasPorDezMin.get(i);
+                while (index <= numSenhasPorDezMinutos) {
+                    Senha senha = null;
+                    if (it.hasNext()) {
+                        senha = it.next();
+                    } else {
+                        it = listaSenhasRemovidas.listIterator();
+                    }
+                    if (senha != null) {
+                        if (listaContemMesmoCidadao(lista, senha) == false) {
+                            lista.add(senha);
+                            it.remove();
+                        }
+                    }
+                    index++;
+                }
+                index = 0;
+            }
+        }
+
+        return mapaSenhasAtendidasPorDezMin;
+    }
+
+    private boolean listaContemMesmoCidadao(List<Senha> lista, Senha senha) {
+        for (Senha s : lista) {
+            if (s.getNif() == senha.getNif()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public int hashCode() {
