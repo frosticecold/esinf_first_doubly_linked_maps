@@ -66,4 +66,19 @@ public class SenhaTest {
         assertEquals(numOrdem, s.getNumOrdem());
     }
 
+    /**
+     * Test of toString method, of class Senha.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        long nif = 123456789;
+        int numOrdem = 1;
+        char cod = 'A';
+        Senha instance = new Senha(nif, cod, numOrdem);
+        String expResult = "Senha{nif=123456789, cod_servico=A, num_ordem=1}";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+    }
+
 }

@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
  *
  * @author pc asus
  */
-public class CidadaoAfectoTest {
+public class CidadaosAfetadosPorReparticaoTest {
 
     Set<Cidadao> listaCidadao = new HashSet<>();
 
-    public CidadaoAfectoTest() {
+    public CidadaosAfetadosPorReparticaoTest() {
         Cidadao c1 = new Cidadao("Jose", 123456789, "emaila@email.pt", "4002-291", 1234);
         Cidadao c2 = new Cidadao("Maria", 123465789, "emailb@email.pt", "1008-395", 1234);
         listaCidadao.add(c1);
