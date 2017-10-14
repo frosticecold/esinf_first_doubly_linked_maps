@@ -196,6 +196,16 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ==============================Alínea F========================*/
+    /**
+     * Método que recebe uma repartição, uma dada hora e min Se a hora/min forem
+     * válidos então vai buscar todos as senhas atendidas por cada 10mins
+     *
+     * @param r Repartição a verificar a utilização
+     * @param hora Hora a verificar
+     * @param min Min a verificar
+     * @return Mapa com um indice 0,1,2,3 para cada 10mins e com uma lista de
+     * senhas atendidas
+     */
     public Map<Integer, List<Senha>> conhecerUtilizacaoReparticao(Reparticao r, int hora, int min) {
         final int MIN_HORA = 9;
         final int MAX_HORA = 15;
@@ -236,6 +246,12 @@ public class GestaoAtendimento {
 
     /*==========================================================================
     ==============================Alínea G========================*/
+    /**
+     * Método que determina a procura dos serviços geral das repartições
+     *
+     * @return Mapa com o serviço e a quantidade de senhas geral associada a
+     * esse serviço
+     */
     public Map<Character, Integer> determinarServicosComMaiorProcura() {
         ListIterator<Reparticao> it = registoReparticao.listIterator();
         Map<Character, Integer> mapaNumeroSenhasPorServico = new HashMap<>();

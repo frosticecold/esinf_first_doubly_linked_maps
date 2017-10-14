@@ -209,6 +209,15 @@ public class Reparticao {
     }
 
     /**
+     * Retorna quantas senhas têm uma repartição
+     *
+     * @return
+     */
+    public int quantasSenhas() {
+        return listaSenhas.size();
+    }
+
+    /**
      * Método que retorna um mapa com os serviços e o número de senhas associado
      * a cada serviço
      *
@@ -225,49 +234,63 @@ public class Reparticao {
         return mapaNumSenhasPorServico;                                         //O(1)
     }                                                                           //Total = O(n)
 
-    //Método não testado
-    public Map<Integer, List<Senha>> conhecerUtilizacaoReparticao(int numSenhasPorDezMinutos) {
-        Map<Integer, List<Senha>> mapaSenhasAtendidasPorDezMin = new HashMap<>();
+    /**
+     * Método que recebe quantas filas de 10mins se vai atender e mostra que
+     * clientes são atendidos por cada fila Tendo em conta que clientes não
+     * podem ser atendidos ao mesmo tempo
+     *
+     * @param numFilas Num Filas de atendimento numa determinada hora/min
+     * @return Mapa que tem como chave cada 10mins (indice 0,1,2,3) com a lista
+     * de senhas atendidas
+     */
+    public Map<Integer, List<Senha>> conhecerUtilizacaoReparticao(int numFilas) {
+        Map<Integer, List<Senha>> mapaSenhasPorFila = new HashMap<>();
 
+        for (int i = 0; i < numFilas; i++) {
+            mapaSenhasPorFila.put(i, new ArrayList<>());
+        }
         DoublyLinkedList<Senha> listaSenhasRemovidas = new DoublyLinkedList<>();
 
-        for (Senha s : listaSenhas) {
-            listaSenhasRemovidas.addLast(s);
+        //Copia a doublylinkedlist para uma nova
+        ListIterator<Senha> itSenhas = listaSenhas.listIterator();
+        while (itSenhas.hasNext()) {
+            listaSenhasRemovidas.addLast(itSenhas.next());
         }
-
         ListIterator<Senha> it = listaSenhasRemovidas.listIterator();
-        int index = 0;
-        for (int i = 0; i < numSenhasPorDezMinutos; i++) {
-            if (!listaSenhasRemovidas.isEmpty()) {
-                if (mapaSenhasAtendidasPorDezMin.get(i) == null) {
-                    mapaSenhasAtendidasPorDezMin.put(i, new ArrayList<>());
-                }
-                List<Senha> lista = mapaSenhasAtendidasPorDezMin.get(i);
-                while (index <= numSenhasPorDezMinutos) {
-                    Senha senha = null;
-                    if (it.hasNext()) {
-                        senha = it.next();
-                    } else {
-                        it = listaSenhasRemovidas.listIterator();
-                    }
-                    if (senha != null) {
-                        if (listaContemMesmoCidadao(lista, senha) == false) {
-                            lista.add(senha);
-                            it.remove();
-                        }
-                    }
-                    index++;
-                }
-                index = 0;
-            }
-        }
+        int indice = 0;
+        int numSenha = 0;
+        do {
 
-        return mapaSenhasAtendidasPorDezMin;
+            Senha senha = null;
+            List<Senha> listaS = mapaSenhasPorFila.get(indice);
+            if (it.hasNext()) {
+                senha = it.next();
+                if (listaContemMesmoNifOuCodSenha(listaS, senha) == false) {
+                    listaS.add(senha);
+                    it.remove();
+                    numSenha++;
+                }
+
+            } else {
+                it = listaSenhasRemovidas.listIterator();
+                indice++;
+
+            }
+        } while (!listaSenhasRemovidas.isEmpty() || indice < numFilas);
+        return mapaSenhasPorFila;
     }
 
-    private boolean listaContemMesmoCidadao(List<Senha> lista, Senha senha) {
+    /**
+     * Método que verifica se uma lista contêm uma senha com o mesmo nif ou cod
+     * de serviço
+     *
+     * @param lista Lista de Senhas
+     * @param senha Senha a comparar
+     * @return true or false
+     */
+    private boolean listaContemMesmoNifOuCodSenha(List<Senha> lista, Senha senha) {
         for (Senha s : lista) {
-            if (s.getNif() == senha.getNif()) {
+            if (s.getNif() == senha.getNif() || s.getCodServico() == senha.getCodServico()) {
                 return true;
             }
         }
