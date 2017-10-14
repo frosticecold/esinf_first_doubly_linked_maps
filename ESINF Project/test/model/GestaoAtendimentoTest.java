@@ -98,6 +98,15 @@ public class GestaoAtendimentoTest {
         expResult = false;
         result = instance.adicionarCidadao(c);
         assertEquals(expResult, result);
+        
+        instance = new GestaoAtendimento();
+        instance.lerFicheirosDados();
+        c = new Cidadao("Test",1231234321,"email@email.email","4480",1234);
+        instance.adicionarCidadao(c);
+        
+        int expectedNumRep = 1236;
+        int resultRep = c.getNumReparticao();
+        assertEquals(expectedNumRep, resultRep);
     }
 
     /**
@@ -123,14 +132,16 @@ public class GestaoAtendimentoTest {
     public void testLerFicheiroDados() {
         System.out.println("obterReparticaoAssociadaNif");
         GestaoAtendimento instance = new GestaoAtendimento();
-        Reparticao rp1 = new Reparticao("Guarda", 1238, "4300");
-        Cidadao c = new Cidadao("Carlos", 11223344L, "carlos@gmail.com", "4300-010", 1238);
+        Reparticao rp1 = new Reparticao("Guarda", 1236, "4300");
+        Cidadao c = new Cidadao("Carlos", 11223344L, "carlos@gmail.com", "4300-010", 1236);
         rp1.adicionarServico('A');
         rp1.adicionarServico('B');
         rp1.adicionarServico('C');
         instance.lerFicheirosDados();
+//        instance.adicionarReparticao(rp1);
+//        instance.adicionarCidadao(c);
         List<Cidadao> lista = instance.obterCidadaosAssociadosAReparticao(rp1);
-
+        boolean tr = instance.adicionarCidadao(c);
         boolean expResult = true;
         boolean result = lista.contains(c);
         assertEquals(expResult, result);
@@ -145,7 +156,7 @@ public class GestaoAtendimentoTest {
         //Declarado em 13/10/2017 10 senhas de A no ficheiro ficheiro_senhas.txt
         int numSenhasA = 10;
         char tipoServico = 'A';
-        List<ProcuraServico> listaProcura = instance.determinarServicosComMaiorProcura();
+        List<ProcuraPorServico> listaProcura = instance.determinarServicosComMaiorProcura();
         int result = listaProcura.get(0).getQtdSenhas();
         assertEquals(numSenhasA, result);
     }
@@ -225,7 +236,7 @@ public class GestaoAtendimentoTest {
         instance.adicionarCidadao(c2);
         List<Cidadao> expResult = new ArrayList<>();
         expResult.add(c);
-        List<Cidadao> result = instance.obterCidadaosPorCodigoPostal(r);
+        List<Cidadao> result = instance.obterCidadaosPorCodigoPostal(r.getCodigoPostal());
         assertEquals(expResult, result);
     }
 

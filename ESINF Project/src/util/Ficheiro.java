@@ -81,16 +81,16 @@ public class Ficheiro {
      * @param nomeFicheiro Nome do Ficheiro
      */
     public void lerCidadaos(GestaoAtendimento ga, String nomeFicheiro) {
-        Cidadao c = null;
-        final int C_NOME = 0, C_NIF = 1, C_EMAIL = 2, C_CODPOSTAL = 3, C_NUMREP = 4;
-        List<String> lista = lerFicheiro(nomeFicheiro);
-        for (String s : lista) {
-            String ls[] = s.split(DELIMITADOR);
-            c = new Cidadao(ls[C_NOME], Long.parseLong(ls[C_NIF]), ls[C_EMAIL], ls[C_CODPOSTAL], Integer.parseInt(ls[C_NUMREP]));
-            ga.adicionarCidadao(c);
+        Cidadao c = null;                                                       //O(1)
+        final int C_NOME = 0, C_NIF = 1, C_EMAIL = 2, C_CODPOSTAL = 3, C_NUMREP = 4;//O(1)
+        List<String> lista = lerFicheiro(nomeFicheiro);                         //O(n)
+        for (String s : lista) {                                                //O(n)*O(n)
+            String ls[] = s.split(DELIMITADOR);                                 //O(n)
+            c = new Cidadao(ls[C_NOME], Long.parseLong(ls[C_NIF]), ls[C_EMAIL], ls[C_CODPOSTAL], Integer.parseInt(ls[C_NUMREP]));//O(1)
+            ga.adicionarCidadao(c);                                             //O(1)
 
-        }
-    }
+        }                                                                    
+    }                                                                           //Total O(n^2)
 
     /**
      * Método que lê todas as senhas de um ficheiro de texto e adiciona as
@@ -100,20 +100,20 @@ public class Ficheiro {
      * @param nomeFicheiro nome de ficheiro
      */
     public void lerSenhas(GestaoAtendimento ga, String nomeFicheiro) {
-        Senha senha = null;
-        final int C_NIF = 0, C_COD_ASSUNTO = 1, C_ORDEM = 2;
-        final char PRIMEIRO_CAR = 0;
-        List<String> lista = lerFicheiro(nomeFicheiro);
-        for (String str : lista) {
-            String ls[] = str.split(DELIMITADOR);
-            long nif = Long.parseLong(ls[C_NIF]);
-            senha = new Senha(nif, ls[C_COD_ASSUNTO].charAt(PRIMEIRO_CAR), Integer.parseInt(ls[C_ORDEM]));
-            Reparticao r = ga.obterReparticaoAssociadaNif(nif);
-            if (r != null) {
-                r.adicionarSenha(senha);
+        Senha senha = null;                                             //O(1)
+        final int C_NIF = 0, C_COD_ASSUNTO = 1, C_ORDEM = 2;            //O(1)
+        final char PRIMEIRO_CAR = 0;                                    //O(1)
+        List<String> lista = lerFicheiro(nomeFicheiro);                 //O(n)
+        for (String str : lista) {                                      //O(n) * O(n)
+            String ls[] = str.split(DELIMITADOR);                       //O(n)
+            long nif = Long.parseLong(ls[C_NIF]);                       //O(1)
+            senha = new Senha(nif, ls[C_COD_ASSUNTO].charAt(PRIMEIRO_CAR), Integer.parseInt(ls[C_ORDEM])); //O(1)
+            Reparticao r = ga.obterReparticaoAssociadaNif(nif);         //O(1)
+            if (r != null) {                                            //O(1)
+                r.adicionarSenha(senha);                                //O(1)
             }
 
         }
-    }
+    }                                                                //Total :O(n^2)
 
 }

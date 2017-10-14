@@ -9,13 +9,13 @@ package model;
  *
  * @author Raúl Correia <1090657@isep.ipp.pt>
  */
-public class ProcuraServico implements Comparable<ProcuraServico> {
+public class ProcuraPorServico implements Comparable<ProcuraPorServico> {
 
     private final char servico;
 
     private final int qtdSenhas;
 
-    public ProcuraServico(char servico, int qtdSenhas) {
+    public ProcuraPorServico(char servico, int qtdSenhas) {
         this.servico = servico;
         this.qtdSenhas = qtdSenhas;
     }
@@ -29,7 +29,7 @@ public class ProcuraServico implements Comparable<ProcuraServico> {
     }
 
     @Override
-    public int compareTo(ProcuraServico o) {
+    public int compareTo(ProcuraPorServico o) {
         if (qtdSenhas > o.qtdSenhas) {
             return qtdSenhas - o.qtdSenhas;
         } else {

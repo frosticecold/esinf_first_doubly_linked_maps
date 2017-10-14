@@ -53,13 +53,13 @@ public class RegistoCidadao implements Iterable<Cidadao> {
      * @param r Repartição com o código postal a procurar
      * @return Lista de cidadãos que deveriam pertencer a essa repartição
      */
-    public List<Cidadao> obterCidadaosPorCodigoPostal(Reparticao r) {
+    public List<Cidadao> obterCidadaosPorCodigoPostal(String codPostal) {
         List<Cidadao> listaCidadaosPorCodPostal = new ArrayList<>();            //O(1)
         final String DEL = "-";                                                 //O(1)
         final int C_PREFIXO = 0;                                                //O(1)
         for (Cidadao c : setCidadao) {                                          //O(n)
             String codPostalPrefixo = c.getCodigoPostal().split(DEL)[C_PREFIXO];//O(1)
-            if (codPostalPrefixo.equals(r.getCodigoPostal())) {                 //O(1)
+            if (codPostalPrefixo.equals(codPostal)) {                 //O(1)
                 listaCidadaosPorCodPostal.add(c);                               //O(1)
             }
         }

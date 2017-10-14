@@ -95,12 +95,12 @@ public class Reparticao {
      * @return true or false
      */
     //Modificado
-    public boolean adicionarServico(char c) {
-        if (!listaServicos.contains(c)) {
-            mapaListaSenhasPorServico.put(c, new DoublyLinkedList<>());
-            return listaServicos.add(c);
+    public boolean adicionarServico(char c) {                           //O(1)
+        if (!listaServicos.contains(c)) {                               //O(1)
+            mapaListaSenhasPorServico.put(c, new DoublyLinkedList<>()); //O(1)
+            return listaServicos.add(c);                                //O(1)
         }
-        return false;
+        return false;                                                   //O(1)
     }
 
     /**
@@ -256,7 +256,7 @@ public class Reparticao {
         ListIterator<Senha> it = listaSenhasRemovidas.listIterator();           //O(1)
         int indice = 0;                                                         //O(1)
 
-        do {
+        do {                                                                    
 
             Senha senha = null;                                                 //O(1)
             List<Senha> listaS = mapaSenhasPorFila.get(indice);                 //O(1)

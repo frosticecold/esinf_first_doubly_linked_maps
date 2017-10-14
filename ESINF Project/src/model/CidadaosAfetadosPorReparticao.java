@@ -58,10 +58,10 @@ public class CidadaosAfetadosPorReparticao {
      *
      * @param listaCidadao Lista de Cidadaos a copiar os nifs
      */
-    private void copiarListaCidadaosParaListaNif(Set<Cidadao> listaCidadao) {
-        for (Cidadao c : listaCidadao) {
-            listaNif.add(c.getNif());
+    private void copiarListaCidadaosParaListaNif(Set<Cidadao> listaCidadao) { 
+        for (Cidadao c : listaCidadao) {    //O(n)
+            listaNif.add(c.getNif());       //O(1)
         }
 
     }
-}
+}                                           //Total O(n)

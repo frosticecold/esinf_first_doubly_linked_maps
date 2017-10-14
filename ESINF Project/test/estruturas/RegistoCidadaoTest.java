@@ -66,8 +66,8 @@ public class RegistoCidadaoTest {
         reg.adicionarCidadao(d);
         reg.adicionarCidadao(e);
         
-        List<Cidadao> expResult = reg.obterCidadaosPorCodigoPostal(porto);
-        List<Cidadao> result = ga.obterCidadaosPorCodigoPostal(porto).subList(0, 5);
+        List<Cidadao> expResult = reg.obterCidadaosPorCodigoPostal(porto.getCodigoPostal());
+        List<Cidadao> result = ga.obterCidadaosPorCodigoPostal(porto.getCodigoPostal()).subList(0, 5);
         assertEquals(expResult, result);
     }
 
