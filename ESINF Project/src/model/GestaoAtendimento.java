@@ -8,6 +8,8 @@ package model;
 import estruturas.RegistoCidadao;
 import estruturas.RegistoReparticao;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -252,7 +254,7 @@ public class GestaoAtendimento {
      * @return Mapa com o serviço e a quantidade de senhas geral associada a
      * esse serviço
      */
-    public Map<Character, Integer> determinarServicosComMaiorProcura() {
+    public List<ProcuraServico> determinarServicosComMaiorProcura() {
         ListIterator<Reparticao> it = registoReparticao.listIterator();
         Map<Character, Integer> mapaNumeroSenhasPorServico = new HashMap<>();
         while (it.hasNext()) {
@@ -271,7 +273,13 @@ public class GestaoAtendimento {
                 }
             }
         }
-        return mapaNumeroSenhasPorServico;
+        List<ProcuraServico> listaProcuraServico = new ArrayList<>();
+        for (Character ch : mapaNumeroSenhasPorServico.keySet()) {
+            ProcuraServico ps = new ProcuraServico(ch, mapaNumeroSenhasPorServico.get(ch));
+            listaProcuraServico.add(ps);
+        }
+        Collections.sort(listaProcuraServico);
+        return listaProcuraServico;
     }
 
     /*==========================================================================
@@ -317,25 +325,6 @@ public class GestaoAtendimento {
 
         }
         return RepaRetornar;
-    }
-
-    /*==========================================================================
-    ============================Métodos de LerFicheiros========================*/
-    /**
-     * Método que lê todos os ficheiros de dados, Primeiro lê o ficheiro das
-     * repartições e adiciona ao registo de repartições, depois incializa o mapa
-     * que relaciona numrepartição com cidadãos Lê o ficheiro dos cidadãos e
-     * adiciona ao registo de cidadãos Valida todos os cidadãos para pertencerem
-     * à devida repartição com o código postal correspondente Por fim lê as
-     * senhas e adiciona as senhas à repartição correspondente
-     */
-    public void lerFicheirosDados() {
-        Ficheiro f = new Ficheiro();
-        f.lerReparticoes(this, FX_REPARTICAO);
-        f.lerCidadaos(this, FX_CIDADAOS);
-        validarCodigoPostalTodosCidadaos();
-        f.lerSenhas(this, FX_SENHAS);
-
     }
 
     /*==========================================================================
@@ -433,4 +422,22 @@ public class GestaoAtendimento {
         }
     }
 
+    /*==========================================================================
+    ============================Métodos de LerFicheiros========================*/
+    /**
+     * Método que lê todos os ficheiros de dados, Primeiro lê o ficheiro das
+     * repartições e adiciona ao registo de repartições, depois incializa o mapa
+     * que relaciona numrepartição com cidadãos Lê o ficheiro dos cidadãos e
+     * adiciona ao registo de cidadãos Valida todos os cidadãos para pertencerem
+     * à devida repartição com o código postal correspondente Por fim lê as
+     * senhas e adiciona as senhas à repartição correspondente
+     */
+    public void lerFicheirosDados() {
+        Ficheiro f = new Ficheiro();
+        f.lerReparticoes(this, FX_REPARTICAO);
+        f.lerCidadaos(this, FX_CIDADAOS);
+        validarCodigoPostalTodosCidadaos();
+        f.lerSenhas(this, FX_SENHAS);
+
+    }
 }

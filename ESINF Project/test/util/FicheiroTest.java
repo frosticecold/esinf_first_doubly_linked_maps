@@ -60,7 +60,7 @@ public class FicheiroTest {
         Ficheiro instance = new Ficheiro();
         List result = instance.lerFicheiro(nomeFicheiro);
         List expResult = new ArrayList<>();
-        
+
         assertEquals(expResult, result);
 
     }

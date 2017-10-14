@@ -42,7 +42,7 @@ public class Reparticao {
     /**
      * Mapa com as listas das Senhas Por Serviço
      */
-    private Map<Character, List<Senha>> mapaListaSenhasPorServico;
+    private Map<Character, DoublyLinkedList<Senha>> mapaListaSenhasPorServico;
 
     /**
      * Mapa de Serviços por Cidadao
@@ -52,11 +52,6 @@ public class Reparticao {
      * Lista duplamente ligada com as senhas
      */
     private DoublyLinkedList<Senha> listaSenhas;
-
-    /**
-     * Valor omissao de um contador
-     */
-    private static final int VALOR_CONTADOR_OMISSAO = 0;
 
     public Reparticao(String cidade, int numReparticao, String codigoPostal) {
         this.cidade = cidade;
@@ -102,7 +97,7 @@ public class Reparticao {
     //Modificado
     public boolean adicionarServico(char c) {
         if (!listaServicos.contains(c)) {
-            mapaListaSenhasPorServico.put(c, new ArrayList<>());
+            mapaListaSenhasPorServico.put(c, new DoublyLinkedList<>());
             return listaServicos.add(c);
         }
         return false;
@@ -119,7 +114,7 @@ public class Reparticao {
     public boolean adicionarSenha(Senha senha) {                                //O(1)
         if (listaServicos.contains(senha.getCodServico())) {                    //O(1)
             listaSenhas.addLast(senha);                                         //O(1)
-            mapaListaSenhasPorServico.get(senha.getCodServico()).add(senha);    //O(1)
+            mapaListaSenhasPorServico.get(senha.getCodServico()).addLast(senha);//O(1)
             if (mapaServicosPorNif.get(senha.getNif()) == null) {               //O(1)
                 mapaServicosPorNif.put(senha.getNif(), new HashSet<>());        //O(1)
             }
@@ -143,7 +138,7 @@ public class Reparticao {
         contador++;                                                         //O(1)
         Senha senha = new Senha(nif, cod_servico, contador);                //O(1)
         listaSenhas.addLast(senha);                                         //O(1)
-        mapaListaSenhasPorServico.get(cod_servico).add(senha);              //O(1)
+        mapaListaSenhasPorServico.get(cod_servico).addLast(senha);          //O(1)
         if (mapaServicosPorNif.get(nif) == null) {                          //O(1)
             mapaServicosPorNif.put(nif, new HashSet<>());                   //O(1)
         }
@@ -166,7 +161,7 @@ public class Reparticao {
             Set<Character> setChar = mapaServicosPorNif.get(nif);           //O(1)
             Set<Character> setCharARemover = new HashSet<>();               //O(1)
             Senha senha = null;                                             //O(1)
-            List<Senha> listaSenhas = null;                                 //O(1)
+            DoublyLinkedList<Senha> listaSenhas = null;                     //O(1)
             for (Character c : setChar) {                                   //O(n) * O(n) = O(n^2)
                 listaSenhas = mapaListaSenhasPorServico.get(c);             //O(1)
 
@@ -244,41 +239,42 @@ public class Reparticao {
      * de senhas atendidas
      */
     public Map<Integer, List<Senha>> conhecerUtilizacaoReparticao(int numFilas) {
-        Map<Integer, List<Senha>> mapaSenhasPorFila = new HashMap<>();
+        Map<Integer, List<Senha>> mapaSenhasPorFila = new HashMap<>();          //O(1)
 
-        for (int i = 0; i < numFilas; i++) {
-            mapaSenhasPorFila.put(i, new ArrayList<>());
+        for (int i = 0; i < numFilas; i++) {                                    //O(n)
+            mapaSenhasPorFila.put(i, new ArrayList<>());                        //O(1)
         }
-        DoublyLinkedList<Senha> listaSenhasRemovidas = new DoublyLinkedList<>();
+
+        DoublyLinkedList<Senha> listaSenhasRemovidas = new DoublyLinkedList<>();//O(1)
 
         //Copia a doublylinkedlist para uma nova
-        ListIterator<Senha> itSenhas = listaSenhas.listIterator();
-        while (itSenhas.hasNext()) {
-            listaSenhasRemovidas.addLast(itSenhas.next());
+        ListIterator<Senha> itSenhas = listaSenhas.listIterator();              //O(1)
+        while (itSenhas.hasNext()) {                                            //O(n)
+            listaSenhasRemovidas.addLast(itSenhas.next());                      //O(1)
         }
-        ListIterator<Senha> it = listaSenhasRemovidas.listIterator();
-        int indice = 0;
-        int numSenha = 0;
+
+        ListIterator<Senha> it = listaSenhasRemovidas.listIterator();           //O(1)
+        int indice = 0;                                                         //O(1)
+
         do {
 
-            Senha senha = null;
-            List<Senha> listaS = mapaSenhasPorFila.get(indice);
-            if (it.hasNext()) {
-                senha = it.next();
-                if (listaContemMesmoNifOuCodSenha(listaS, senha) == false) {
-                    listaS.add(senha);
-                    it.remove();
-                    numSenha++;
+            Senha senha = null;                                                 //O(1)
+            List<Senha> listaS = mapaSenhasPorFila.get(indice);                 //O(1)
+            if (it.hasNext()) {                                                 //O(n)
+                senha = it.next();                                              //O(1)
+                if (listaContemMesmoNifOuCodSenha(listaS, senha) == false) {    //O(n)
+                    listaS.add(senha);                                          //O(1)
+                    it.remove();                                                //O(1)
                 }
 
             } else {
-                it = listaSenhasRemovidas.listIterator();
-                indice++;
+                it = listaSenhasRemovidas.listIterator();                       //O(1)
+                indice++;                                                       //O(1)
 
             }
-        } while (!listaSenhasRemovidas.isEmpty() || indice < numFilas);
-        return mapaSenhasPorFila;
-    }
+        } while (!listaSenhasRemovidas.isEmpty() || indice < numFilas);         //O(n) * O(n) * O(n) = O(n^3)
+        return mapaSenhasPorFila;                                               //O(1)
+    }                                                                           //Total O(n^3)
 
     /**
      * Método que verifica se uma lista contêm uma senha com o mesmo nif ou cod
@@ -289,13 +285,13 @@ public class Reparticao {
      * @return true or false
      */
     private boolean listaContemMesmoNifOuCodSenha(List<Senha> lista, Senha senha) {
-        for (Senha s : lista) {
-            if (s.getNif() == senha.getNif() || s.getCodServico() == senha.getCodServico()) {
-                return true;
+        for (Senha s : lista) {                                                             //O(n)
+            if (s.getNif() == senha.getNif() || s.getCodServico() == senha.getCodServico()) {//O(1)
+                return true;                                                                 //O(1)
             }
         }
-        return false;
-    }
+        return false;                                                                        //O(1)
+    }                                                                                        //Total O(n)
 
     @Override
     public int hashCode() {

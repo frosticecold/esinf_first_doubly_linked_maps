@@ -145,8 +145,8 @@ public class GestaoAtendimentoTest {
         //Declarado em 13/10/2017 10 senhas de A no ficheiro ficheiro_senhas.txt
         int numSenhasA = 10;
         char tipoServico = 'A';
-        Map<Character, Integer> determinarServicosComMaiorProcura = instance.determinarServicosComMaiorProcura();
-        int result = determinarServicosComMaiorProcura.get(tipoServico);
+        List<ProcuraServico> listaProcura = instance.determinarServicosComMaiorProcura();
+        int result = listaProcura.get(0).getQtdSenhas();
         assertEquals(numSenhasA, result);
     }
 
