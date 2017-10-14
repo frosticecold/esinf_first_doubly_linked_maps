@@ -236,8 +236,8 @@ public class GestaoAtendimento {
 
         if (valid == true) {
             int horasEmMinutos = Math.abs(hora - HORA_ABERTURA) * 60;
-            int nrSenhas = (horasEmMinutos + min) / 10;
-            mapaUtilizacao = r.conhecerUtilizacaoReparticao(nrSenhas);
+            int nrFilas = (horasEmMinutos + min) / TEMPO_MEDIA_SENHAS;
+            mapaUtilizacao = r.conhecerUtilizacaoReparticao(nrFilas);
         }
 
         return mapaUtilizacao;
