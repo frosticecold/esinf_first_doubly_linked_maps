@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import model.GestaoAtendimento;
-import model.ProcuraServico;
 import model.Reparticao;
 import org.junit.Test;
 import static org.junit.Assert.*;
