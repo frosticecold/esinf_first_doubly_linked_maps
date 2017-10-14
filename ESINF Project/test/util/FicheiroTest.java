@@ -8,10 +8,11 @@ package util;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import model.GestaoAtendimento;
+import model.ProcuraServico;
+import model.Reparticao;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 
 /**
  *
@@ -47,9 +48,62 @@ public class FicheiroTest {
         List<String> result = instance.lerFicheiro(nomeFicheiro);
         assertEquals(expResult, result);
     }
+    
+    @Test
+    public void testLerFicheiroReparticao() {
+        System.out.println("lerReparticoes");
+        String nomeFicheiro = "fx_rep_test.txt";
+        GestaoAtendimento ga = new GestaoAtendimento();
+        Ficheiro instance = new Ficheiro();
+        int expResult = 7;
+        instance.lerReparticoes(ga, nomeFicheiro);
+        int result = ga.obterListaReparticoes().size();
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testLerFicheiroCidadaos() {
+        System.out.println("lerCidadaos");
+        String nomeFicheiro = "fx_cid_test.txt";
+        GestaoAtendimento ga = new GestaoAtendimento();
+        Reparticao r = new Reparticao("Porto", 1234, "4200");
+        
+        Ficheiro instance = new Ficheiro();
+        instance.lerReparticoes(ga, "fx_rep_test.txt");
 
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
+        Ficheiro instance1 = new Ficheiro();
+        instance1.lerCidadaos(ga, nomeFicheiro);
+        
+        
+        int expResult = 3;
+        int result = ga.obterCidadaosAssociadosAReparticao(r).size();
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testLerFicheiroSenhas() {
+        System.out.println("lerSenhas");
+        String nomeFicheiro = "fx_senhas_test.txt";
+        GestaoAtendimento ga = new GestaoAtendimento();
+        
+        
+        Ficheiro instance = new Ficheiro();
+        instance.lerReparticoes(ga, "fx_rep_test.txt");
+        
+        Ficheiro instance1 = new Ficheiro();
+        instance1.lerCidadaos(ga, "fx_cid_test.txt");
+        
+        Ficheiro instance2 = new Ficheiro();
+        instance2.lerSenhas(ga, nomeFicheiro);
+        
+        char expResult = 'A';
+        char result = ga.determinarServicosComMaiorProcura().get(0).getServico();
+        assertEquals(expResult, result);
+        
+        int result1 = ga.determinarServicosComMaiorProcura().get(0).getQtdSenhas();
+        int expResult1 = 4;
+        assertEquals(expResult1, result1);
+    }
 
     @Test
     public void TestLerFicheiroTest() throws FileNotFoundException {
@@ -62,7 +116,6 @@ public class FicheiroTest {
         List expResult = new ArrayList<>();
 
         assertEquals(expResult, result);
-
     }
 
 }

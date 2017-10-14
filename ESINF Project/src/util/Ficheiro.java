@@ -21,7 +21,7 @@ import model.Senha;
  */
 public class Ficheiro {
 
-    private String DELIMITADOR = ",";
+    private final String DELIMITADOR = ",";
 
     public Ficheiro() {
     }
