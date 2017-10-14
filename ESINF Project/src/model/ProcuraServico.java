@@ -11,16 +11,16 @@ package model;
  */
 public class ProcuraServico implements Comparable<ProcuraServico> {
 
-    private final Character servico;
+    private final char servico;
 
     private final int qtdSenhas;
 
-    public ProcuraServico(Character servico, int qtdSenhas) {
+    public ProcuraServico(char servico, int qtdSenhas) {
         this.servico = servico;
         this.qtdSenhas = qtdSenhas;
     }
 
-    public Character getServico() {
+    public char getServico() {
         return servico;
     }
 
@@ -31,12 +31,12 @@ public class ProcuraServico implements Comparable<ProcuraServico> {
     @Override
     public int compareTo(ProcuraServico o) {
         if (qtdSenhas > o.qtdSenhas) {
-            return -1;
+            return qtdSenhas - o.qtdSenhas;
         } else {
             if (qtdSenhas == o.qtdSenhas) {
                 return 0;
             } else {
-                return 1;
+                return o.qtdSenhas - qtdSenhas;
             }
         }
     }
