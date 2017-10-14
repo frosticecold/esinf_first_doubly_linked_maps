@@ -267,7 +267,6 @@ public class GestaoAtendimento {
      * @param c cidadao a adicionar
      * @return true or false
      */
-    
     public boolean adicionarCidadao(Cidadao c) {
         boolean added = false;
         added = registoCidadao.adicionarCidadao(c); //O(1)
@@ -306,7 +305,11 @@ public class GestaoAtendimento {
 
                             }
 
-                 }}}}}
+                        }
+                    }
+                }
+            }
+        }
         return added;
     }       //Total O(n)
 
@@ -395,6 +398,20 @@ public class GestaoAtendimento {
         Collections.sort(listaProcuraServico);                                  //O(nlogn)
         return listaProcuraServico;                                             //O(1)
     }                                                                           //Total : O(n^3)
+/*==========================================================================
+    ==============================Alínea H========================*/
+
+    /**
+     * Método que remove todas as senhas de uma dada repartição para um dado
+     * cidadão
+     *
+     * @param r Repartição a remover as senhas
+     * @param c Cidadao a quem pertence as senhas
+     * @return true or false
+     */
+    public boolean abandonarFilas(Reparticao r, Cidadao c) {
+        return r.abandonarFilas(c.getNif()); //O(n^2)
+    }                                       //Total O(n^2)
 
     /*==========================================================================
     ============================Métodos de Obter========================*/
