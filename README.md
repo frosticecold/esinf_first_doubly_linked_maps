@@ -2,4 +2,6 @@
 
 Project for ESINF (Algorithms and Data Structures)
 
-Focus on a custom DoublyLinkedList implementation and Maps
+Focus on:
+ * custom DoublyLinkedList implementation 
+ * Maps
